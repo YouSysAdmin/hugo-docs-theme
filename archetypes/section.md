@@ -1,0 +1,6 @@
+---
+title: "{{ replace .File.ContentBaseName "-" " " | title }}"
+description: ""
+weight: 10
+icon: file-text
+---

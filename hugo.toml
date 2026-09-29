@@ -1,0 +1,12 @@
+# Theme defaults. Hugo merges only some keys from a theme - params and
+# menus among them, never outputs or markup - so the settings the theme
+# NEEDS from a site are in the README and in exampleSite/hugo.toml.
+
+[module]
+  [module.hugoVersion]
+    extended = false
+    min = "0.158.0"
+
+[params]
+  sidebarCollapsible = true
+  sidebarCollapsed = false

@@ -1,0 +1,74 @@
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+{{- /* Resolve the theme before first paint (no flash). Stored preference wins,
+       otherwise follow the OS. Dark-first fallback. Kept inline + blocking so
+       the data-theme attribute is set before the stylesheet applies. */ -}}
+<script>
+  (function () {
+    try {
+      var stored = localStorage.getItem('theme');
+      var theme = stored || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+      document.documentElement.setAttribute('data-theme', theme);
+    } catch (e) {
+      document.documentElement.setAttribute('data-theme', 'dark');
+    }
+  })();
+</script>
+{{- $title := .Title -}}
+{{- $siteTitle := site.Title -}}
+{{- if .IsHome -}}
+<title>{{ $siteTitle }}</title>
+{{- else -}}
+<title>{{ $title }} · {{ $siteTitle }}</title>
+{{- end }}
+<meta name="description" content="{{ with .Description }}{{ . }}{{ else }}{{ site.Params.description }}{{ end }}"/>
+<meta name="theme-color" content="{{ site.Params.themeColor | default "#0b0d10" }}"/>
+{{ hugo.Generator }}
+
+{{- /* The theme ships its own mark. A site replaces it by putting files at
+       the same paths under its static/, or points params.favicon at one
+       SVG, in which case the PNG sizes are not emitted. */ -}}
+{{ with site.Params.favicon }}
+<link rel="icon" href="{{ . | relURL }}"/>
+{{ else }}
+<link rel="icon" type="image/svg+xml" href="{{ "assets/logo/favicon.svg" | relURL }}"/>
+<link rel="icon" type="image/png" sizes="32x32" href="{{ "assets/logo/favicon-32.png" | relURL }}"/>
+<link rel="icon" type="image/png" sizes="16x16" href="{{ "assets/logo/favicon-16.png" | relURL }}"/>
+<link rel="apple-touch-icon" sizes="180x180" href="{{ "assets/logo/apple-touch-icon.png" | relURL }}"/>
+{{ end }}
+
+{{- /* Preload the most-used self-hosted weights (body 400, headings 600).
+       Fonts are fetched in anonymous CORS mode, so the preload needs
+       crossorigin to match - otherwise the browser fetches them twice. */ -}}
+<link rel="preload" as="font" type="font/woff2" crossorigin href="{{ "fonts/inter-tight-400.woff2" | relURL }}"/>
+<link rel="preload" as="font" type="font/woff2" crossorigin href="{{ "fonts/inter-tight-600.woff2" | relURL }}"/>
+<link rel="preload" as="font" type="font/woff2" crossorigin href="{{ "fonts/jetbrains-mono-400.woff2" | relURL }}"/>
+
+{{ $tokens    := resources.Get "css/tokens.css" }}
+{{ $docs      := resources.Get "css/docs.css" }}
+{{ $searchcss := resources.Get "css/search.css" }}
+{{- /* A site's assets/css/custom.css is appended last, so it can restyle
+       anything - usually by redefining tokens on :root and [data-theme]. */ -}}
+{{ $styles    := slice $tokens $docs $searchcss }}
+{{ with resources.Get "css/custom.css" }}{{ $styles = $styles | append . }}{{ end }}
+{{ $css       := $styles | resources.Concat "css/app.css" | minify | fingerprint }}
+<link rel="stylesheet" href="{{ $css.RelPermalink }}"/>
+
+{{- /* App JS: Fuse.js + the search controller + theme behavior (nav drawer,
+       dark/light toggle, TOC scrollspy) concatenated into one deferred,
+       fingerprinted bundle (same Pipes pattern as the CSS above). The no-flash
+       theme resolver above stays inline and blocking, everything else defers. */ -}}
+{{ $fuse     := resources.Get "js/vendor/fuse.min.js" }}
+{{ $searchjs := resources.Get "js/search.js" }}
+{{ $themejs  := resources.Get "js/theme.js" }}
+{{ $refjs    := resources.Get "js/reference.js" }}
+{{ $js       := slice $fuse $searchjs $themejs $refjs | resources.Concat "js/app.js" | minify | fingerprint }}
+<script defer src="{{ $js.RelPermalink }}"></script>
+
+<link rel="canonical" href="{{ .Permalink }}"/>
+<meta property="og:title" content="{{ if .IsHome }}{{ $siteTitle }}{{ else }}{{ $title }} · {{ $siteTitle }}{{ end }}"/>
+<meta property="og:description" content="{{ with .Description }}{{ . }}{{ else }}{{ site.Params.description }}{{ end }}"/>
+<meta property="og:type" content="website"/>
+<meta property="og:url" content="{{ .Permalink }}"/>
+{{ with site.Params.images }}<meta property="og:image" content="{{ index . 0 | absURL }}"/>{{ end }}
+{{ partial "hooks/head-end.html" . }}

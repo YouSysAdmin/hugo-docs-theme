@@ -1,0 +1,12 @@
+{{- /* Demo site only: every icon the build can see, theme and site alike. */ -}}
+<div class="cs-table-wrap" tabindex="0" role="region" aria-label="Icons">
+  <table>
+    <thead><tr><th>Icon</th><th>Name</th></tr></thead>
+    <tbody>
+      {{- range resources.Match "icons/*.svg" }}
+      {{- $name := path.BaseName .Name }}
+      <tr><td>{{ partial "icon.html" $name }}</td><td><code>{{ $name }}</code></td></tr>
+      {{- end }}
+    </tbody>
+  </table>
+</div>

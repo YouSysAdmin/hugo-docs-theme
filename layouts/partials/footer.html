@@ -1,0 +1,50 @@
+<footer class="cs-footer">
+  <div class="cs-footer-inner">
+    <div class="cs-footer-brand">
+      <div class="cs-footer-wordmark">{{ site.Params.brand | default site.Title }}</div>
+    </div>
+    <div class="cs-footer-cols">
+      {{- $sections := where site.Sections "Params.sidebar" "ne" false -}}
+      {{- $sections := $sections.ByWeight -}}
+      {{- $primary := first 3 $sections -}}
+      {{- $secondary := after 3 $sections -}}
+      {{ with $primary }}
+        <div>
+          <div class="cs-footer-h">{{ i18n "footer_docs" }}</div>
+          <ul>
+            {{ range . }}<li><a href="{{ .RelPermalink }}">{{ .Title }}</a></li>{{ end }}
+          </ul>
+        </div>
+      {{ end }}
+      {{ with $secondary }}
+        <div>
+          <div class="cs-footer-h">{{ i18n "footer_reference" }}</div>
+          <ul>
+            {{ range . }}<li><a href="{{ .RelPermalink }}">{{ .Title }}</a></li>{{ end }}
+          </ul>
+        </div>
+      {{ end }}
+      {{ if and site.Params.show_footer_project site.Params.repoURL }}
+        <div>
+          <div class="cs-footer-h">{{ i18n "footer_project" }}</div>
+          <ul>
+            <li><a href="{{ site.Params.repoURL }}/releases" target="_blank" rel="noopener">{{ i18n "footer_releases" }}</a></li>
+            <li><a href="{{ site.Params.repoURL }}/issues" target="_blank" rel="noopener">{{ i18n "footer_issues" }}</a></li>
+          </ul>
+        </div>
+      {{ end }}
+    </div>
+  </div>
+  <div class="cs-footer-bar">
+    {{- /* The label face draws the copyright sign as a small superscript, so
+           the sign alone is set in the text face. */ -}}
+    {{- $copy := printf "© %d %s" now.Year (site.Params.author | default site.Title | htmlEscape) -}}
+    {{- with site.Params.copyright }}{{ $copy = . | markdownify }}{{ end }}
+    <span class="mono-dim">{{ replace $copy "©" `<span class="cs-copy-sign">©</span>` | safeHTML }}</span>
+    {{- if ne site.Params.footer_credit false }}
+    {{- $hugo := `<a href="https://gohugo.io" target="_blank" rel="noopener">hugo</a>` -}}
+    {{- $theme := `<a href="https://yousysadmin.github.io/hugo-docs-theme/" target="_blank" rel="noopener">docs</a>` }}
+    <span class="mono-dim cs-footer-credit">{{ i18n "footer_built_with" (dict "Hugo" $hugo "Theme" $theme) | safeHTML }}</span>
+    {{- end }}
+  </div>
+</footer>

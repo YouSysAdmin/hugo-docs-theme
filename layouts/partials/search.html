@@ -1,0 +1,21 @@
+{{- /* Search modal. Hidden until opened by the nav trigger, Cmd/Ctrl-K, or "/".
+       data-index points at the JSON search index (see layouts/index.json), which
+       search.js fetches on first open. Lives at body level so its fixed overlay
+       isn't trapped by the nav's backdrop-filter containing block. */ -}}
+<div class="cs-search" id="cs-search" data-index="{{ "index.json" | relLangURL }}" hidden>
+  <div class="cs-search-backdrop" data-search-close></div>
+  <div class="cs-search-dialog" role="dialog" aria-modal="true" aria-label="{{ i18n "search_dialog" }}">
+    <div class="cs-search-field">
+      {{ partial "icon.html" (dict "name" "search" "class" "cs-search-field-ico") }}
+      <input type="search" class="cs-search-input" placeholder="{{ i18n "search_placeholder" }}" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" aria-label="{{ i18n "search_input_aria" }}"/>
+      <button type="button" class="cs-search-close" data-search-close aria-label="{{ i18n "search_close" }}"><kbd>Esc</kbd></button>
+    </div>
+    <ul class="cs-search-results" role="listbox" aria-label="{{ i18n "search_results" }}"></ul>
+    <div class="cs-search-empty" hidden>{{ i18n "search_no_results" }}</div>
+    <div class="cs-search-foot">
+      <span><kbd>&#8593;</kbd><kbd>&#8595;</kbd> {{ i18n "search_hint_navigate" }}</span>
+      <span><kbd>&#8629;</kbd> {{ i18n "search_hint_open" }}</span>
+      <span><kbd>esc</kbd> {{ i18n "search_hint_close" }}</span>
+    </div>
+  </div>
+</div>

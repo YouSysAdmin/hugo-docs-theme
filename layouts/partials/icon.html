@@ -1,0 +1,22 @@
+{{- /*
+  Inline an SVG from assets/icons/<name>.svg with a class injected onto the root
+  <svg> (icons use stroke="currentColor", so color/size follow CSS).
+
+  Call with a bare name or a dict:
+    {{ partial "icon.html" "rocket" }}
+    {{ partial "icon.html" (dict "name" "rocket" "class" "cs-nav-ico") }}
+*/ -}}
+{{- $name := "" -}}
+{{- $class := "cs-ico" -}}
+{{- if reflect.IsMap . -}}
+  {{- $name = .name -}}
+  {{- with .class }}{{ $class = printf "cs-ico %s" . }}{{ end -}}
+{{- else -}}
+  {{- $name = . -}}
+{{- end -}}
+{{- $path := printf "icons/%s.svg" $name -}}
+{{- with resources.Get $path -}}
+  {{- replaceRE `<svg\b` (printf `<svg class="%s" aria-hidden="true" focusable="false"` $class) .Content 1 | safeHTML -}}
+{{- else -}}
+  {{- warnf "partial icon.html: icon %q not found (expected assets/%s)" $name $path -}}
+{{- end -}}

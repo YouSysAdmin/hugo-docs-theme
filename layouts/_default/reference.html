@@ -1,0 +1,51 @@
+{{- /*
+  API reference page: prose, then an OpenAPI document rendered by Scalar.
+
+    ---
+    title: API
+    layout: reference
+    openapi: openapi.json     # a page resource, a path under static/, or a URL
+    ---
+
+  Scalar is vendored (assets/vendor/scalar) and published only when a page
+  with this layout exists.
+  It is mounted by assets/js/reference.js, so there is no inline script.
+
+  NOT id="api-reference": the standalone bundle mounts ITSELF on an element
+  by that id, with its defaults - fonts from its CDN, a proxy, telemetry -
+  and the configured instance then lands on top of it.
+*/ -}}
+{{ define "main" }}
+  {{- /* Hugo also selects this template for a section named "reference". */ -}}
+  {{ if and (not .IsPage) (not .Params.openapi) }}
+  {{ partial "section.html" . }}
+  {{ else }}
+  <article class="cs-article cs-article-reference">
+    <header class="cs-article-head">
+      {{ with .Parent }}
+        <div class="cs-eyebrow">{{ .Title }}</div>
+      {{ end }}
+      <h1>{{ .Title }}</h1>
+      {{ with .Description }}<p class="cs-lead">{{ . }}</p>{{ end }}
+    </header>
+    <div class="cs-prose">
+      {{ .Content }}
+    </div>
+    {{- with .Params.openapi -}}
+      {{- $src := . -}}
+      {{- $u := urls.Parse $src -}}
+      {{- if not $u.Scheme -}}
+        {{- with $.Resources.Get $src -}}
+          {{- $src = .RelPermalink -}}
+        {{- else -}}
+          {{- $src = strings.TrimPrefix "/" $src | relURL -}}
+        {{- end -}}
+      {{- end }}
+      <div id="openapi-reference" class="cs-reference" data-url="{{ $src }}"></div>
+      <script defer src="{{ (resources.Get "vendor/scalar/standalone.js").RelPermalink }}"></script>
+    {{- else -}}
+      {{- warnf "layout reference: %s has no `openapi` front matter" $.File.Path -}}
+    {{- end }}
+  </article>
+  {{ end }}
+{{ end }}

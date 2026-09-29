@@ -1,0 +1,34 @@
+{{- /* A section page: header, prose and a card per child page. Shared by
+       list.html and by reference.html, which Hugo also picks for a section
+       NAMED reference. */ -}}
+<article class="cs-article">
+  <header class="cs-article-head">
+    <div class="cs-eyebrow">{{ i18n "list_section" }}</div>
+    <h1>{{ .Title }}</h1>
+    {{ with .Description }}<p class="cs-lead">{{ . }}</p>{{ end }}
+  </header>
+  {{ partial "translation-notice.html" . }}
+  <div class="cs-prose">
+    {{ .Content }}
+  </div>
+
+  {{- /* Card grid driven by the primary-language section so untranslated child
+         pages still appear (linked to the primary version with a tag). */ -}}
+  {{- $primary := index hugo.Sites 0 -}}
+  {{- $primaryLang := $primary.Language.Lang -}}
+  {{- $psec := . -}}
+  {{- range .AllTranslations -}}{{- if eq .Language.Lang $primaryLang -}}{{- $psec = . -}}{{- end -}}{{- end -}}
+  {{ with $psec.Pages.ByWeight }}
+    <div class="cs-list-grid">
+      {{ range . }}
+        {{- $rp := partial "i18n-resolve.html" . -}}
+        {{- $pg := $rp.page -}}
+        <a class="cs-list-card" href="{{ $pg.RelPermalink }}">
+          <div class="cs-list-card-h">{{ $pg.Title }}{{ if $rp.fallback }} {{ partial "fallback-tag.html" $primaryLang }}{{ end }}</div>
+          {{ with $pg.Description }}<div class="cs-list-card-d">{{ . }}</div>{{ end }}
+          <div class="cs-list-card-arrow mono">→</div>
+        </a>
+      {{ end }}
+    </div>
+  {{ end }}
+</article>

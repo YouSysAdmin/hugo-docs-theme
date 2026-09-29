@@ -1,0 +1,4 @@
+# Definitions for {{< tooltip term="..." >}}. Keys are lowercase.
+toml = "Tom's Obvious Minimal Language, a configuration file format"
+yaml = "YAML Ain't Markup Language, the default front matter format"
+ssg = "Static site generator - builds HTML files ahead of time"

@@ -1,0 +1,15 @@
+{{- /* Client-side search index. Emitted on the home page when "JSON" is in
+       site outputs.home. Covers regular pages AND section _index pages (several
+       sections here carry substantial content), excluding the home and taxonomy
+       kinds. .Plain is the rendered text with shortcodes expanded but no HTML. */ -}}
+{{- $idx := slice -}}
+{{- range where site.Pages "Kind" "in" (slice "page" "section") -}}
+  {{- $idx = $idx | append (dict
+      "title"   .Title
+      "href"    .RelPermalink
+      "section" .Section
+      "desc"    (.Description | default "")
+      "body"    (.Plain | htmlUnescape | chomp)
+  ) -}}
+{{- end -}}
+{{- $idx | jsonify -}}

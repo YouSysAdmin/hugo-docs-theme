@@ -1,0 +1,34 @@
+{{- /* Language switcher: one compact link per configured language (the language
+       code, e.g. EN / UK). Links to the current page's translation when it exists.
+       Otherwise it links to the nearest ancestor section that IS translated, so the
+       reader stays close to where they were, and the title says the page itself is
+       not translated. The language's home is the last resort. Iterating hugo.Sites
+       makes each language's home resolve correctly even with the default language
+       served at the root. Renders nothing when only one language is configured. */ -}}
+{{- if gt (len hugo.Sites) 1 -}}
+<div class="cs-lang" role="group" aria-label="{{ i18n "lang_switch" }}">
+  {{- range hugo.Sites -}}
+    {{- $s := . -}}
+    {{- $lang := $s.Language.Lang -}}
+    {{- $href := "" -}}
+    {{- range $.AllTranslations -}}
+      {{- if eq .Language.Lang $lang }}{{ $href = .RelPermalink }}{{ end -}}
+    {{- end -}}
+    {{- $missing := not $href -}}
+    {{- if $missing -}}
+      {{- range $.Ancestors -}}
+        {{- if not $href -}}
+          {{- range .AllTranslations -}}
+            {{- if eq .Language.Lang $lang }}{{ $href = .RelPermalink }}{{ end -}}
+          {{- end -}}
+        {{- end -}}
+      {{- end -}}
+    {{- end -}}
+    {{- $href = $href | default $s.Home.RelPermalink -}}
+    {{- $cur := eq $lang site.Language.Lang -}}
+    {{- $title := $s.Language.Label -}}
+    {{- if $missing }}{{ $title = printf "%s - %s" $title (i18n "translation_missing") }}{{ end -}}
+    <a class="cs-lang-link{{ if $cur }} cs-lang-cur{{ end }}" href="{{ $href }}" hreflang="{{ $lang }}" lang="{{ $lang }}" title="{{ $title }}"{{ if $cur }} aria-current="true"{{ end }}>{{ $lang | upper }}</a>
+  {{- end -}}
+</div>
+{{- end -}}

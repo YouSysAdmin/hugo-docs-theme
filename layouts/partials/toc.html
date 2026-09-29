@@ -1,0 +1,7 @@
+<aside class="cs-toc" aria-label="{{ i18n "toc_title" }}">
+  <div class="cs-toc-h">{{ i18n "toc_title" }}</div>
+  {{ .TableOfContents }}
+  {{ if site.Params.edit_base }}{{ with .File }}
+    <a class="cs-toc-edit" href="{{ site.Params.edit_base }}{{ .Path }}" target="_blank" rel="noopener">{{ i18n "toc_edit" }} <span class="mono">↗</span></a>
+  {{ end }}{{ end }}
+</aside>

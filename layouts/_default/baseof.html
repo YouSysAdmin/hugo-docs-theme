@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="{{ site.Language.Lang | default "en" }}">
+<head>
+  {{ partial "head.html" . }}
+</head>
+{{- /* Without params.landing the home page is a documentation page like
+    any other and keeps the sidebar, the TOC column and the ordinary body
+    class. With it, the home page alone gets the one-column hero. */ -}}
+{{- $landing := and .IsHome site.Params.landing -}}
+<body class="cs-doc{{ if $landing }} cs-home{{ end }}">
+  {{ partial "nav.html" . }}
+  <div class="cs-shell">
+    {{ if not $landing }}{{ partial "sidebar.html" . }}{{ end }}
+    <main class="cs-main{{ if $landing }} cs-main-wide{{ end }}" id="content">
+      {{ block "main" . }}{{ end }}
+    </main>
+    {{- /* "On this page" TOC, on for any page with enough headings. Set
+        `toc: false` in front matter to hide it. The grid always reserves the
+        right column, so this just fills it. */ -}}
+    {{ $toc := true }}
+    {{ if isset .Params "toc" }}{{ $toc = .Params.toc }}{{ end }}
+    {{ if and (not $landing) $toc (gt (len .TableOfContents) 50) }}
+      {{ partial "toc.html" . }}
+    {{ end }}
+  </div>
+  {{ partial "search.html" . }}
+  {{ partial "footer.html" . }}
+  {{ partial "hooks/body-end.html" . }}
+</body>
+</html>

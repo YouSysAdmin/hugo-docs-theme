@@ -1,0 +1,182 @@
+# Demo site for the theme, and the reference for every setting it reads.
+# Run from this directory: `hugo server`. The theme is the checkout two
+# levels up, found by its directory name.
+baseURL = "https://example.org/"
+title = "Hugo Docs Theme"
+theme = "hugo-docs-theme"
+themesDir = "../.."
+
+defaultContentLanguage = "en"
+defaultContentLanguageInSubdir = false
+enableRobotsTXT = true
+
+[params]
+# Wordmark in the top bar and the footer. Defaults to the site title.
+brand = "Docs Theme"
+author = "YouSysAdmin"
+description = "A documentation theme for Hugo"
+
+# Logo and favicon. Leave both out to use the theme's mark.
+# logo = "images/logo.svg"
+# favicon = "images/favicon.svg"
+# themeColor = "#0b0d10"
+
+# Social preview image, absolute or relative to baseURL.
+# images = ["images/og.png"]
+
+# Footer line. Markdown. Defaults to "(c) <year> <author>".
+# copyright = "Released under the MIT license."
+# The "built with hugo and docs theme" line on the right of the footer.
+# footer_credit = false
+
+# Sidebar sections collapse, and the one holding the current page opens.
+# A section can override both in its _index.md (sidebar_collapsible,
+# sidebar_collapsed), and `sidebar: false` hides it entirely.
+sidebarCollapsible = true
+sidebarCollapsed = true
+# Show a section's own _index as the first entry of its group.
+# sidebarIndexLink = true
+
+# Repository links: the Project column in the footer, "Edit this page"
+# under the TOC, and the button in the top bar.
+show_footer_project = true
+repoURL = "https://github.com/YouSysAdmin/hugo-docs-theme"
+edit_base = "https://github.com/YouSysAdmin/hugo-docs-theme/edit/master/exampleSite/content/"
+cta_url = "https://github.com/YouSysAdmin/hugo-docs-theme"
+cta_label = "GitHub"
+cta_icon = "github"
+
+# Open absolute links in the prose in a new tab.
+externalLinksNewTab = true
+
+# Landing page on the home page instead of the documentation index.
+landing = true
+tagline = "Not Documented,"
+tagline_sub = "Not Done."
+lead = "A Hugo theme for product and API documentation."
+# get_started_url = "/getting-started/"
+features_title = "What you get"
+trust_badges = ["# dark + light", "# built-in search", "# multilingual", "# no tracking", "# MIT"]
+# The panel beside the hero is EITHER an image OR a text terminal. Both
+# are drawn in the same window frame, titled by hero_terminal_title.
+#
+# Image: 1320x680 px recommended (the frame is 660x340 on a wide screen,
+# this is twice that for sharp screens), ratio about 1.94:1. A PNG or JPEG
+# under assets/ is cropped to exactly that size, keeping the part
+# hero_terminal_image_anchor names (Center, Top, Bottom, Left, Right,
+# TopLeft, ...).
+# An SVG, a file under static/ or a URL is used as it is and fitted to the
+# same shape. When hero_terminal_image is set, hero_terminal_lines is ignored.
+# hero_terminal_image = "images/hero.png"
+# hero_terminal_image_alt = "The documentation page for markdown syntax"
+# hero_terminal_image_anchor = "Top"
+#
+# Terminal: lines are HTML, coloured with the cs-accent, cs-ok and cs-dim
+# classes. On a wide screen 79 characters fit on a line before it wraps,
+# and 11 lines (the cursor takes a twelfth) before the window grows.
+hero_terminal_title = "~/my-docs"
+hero_terminal_lines = [
+  '<span class="cs-prefix cs-accent">$</span> hugo new site my-docs && cd my-docs',
+  '<span class="cs-prefix cs-accent">$</span> git submodule add <span class="cs-dim">$THEME_REPO</span> themes/hugo-docs-theme',
+  "<span class=\"cs-prefix cs-accent\">$</span> echo <span class=\"cs-ok\">'theme = \"hugo-docs-theme\"'</span> &gt;&gt; hugo.toml",
+  '<span class="cs-prefix cs-accent">$</span> hugo server',
+  '<span class="cs-dim">Web Server is available at</span> http://localhost:1313/',
+]
+
+[[params.features]]
+title = "The menu builds itself"
+description = "Put a page in a folder and it appears in the sidebar. There is no menu to keep up to date by hand."
+[[params.features]]
+title = "Instant search"
+description = "Press Cmd+K or / and start typing. Search runs in the browser, so there is nothing to set up or pay for."
+[[params.features]]
+title = "Always know where you are"
+description = "The list of headings beside the page highlights the part you are reading right now."
+[[params.features]]
+title = "Tips, warnings and notes"
+description = "Ready-made boxes that make important things stand out, hints that explain a term on hover, and a set of icons."
+[[params.features]]
+title = "API docs from your spec"
+description = "Point a page at your OpenAPI file and get interactive API documentation, with no outside service."
+[[params.features]]
+title = "Docs in several languages"
+description = "Translate at your own pace. A page that is not translated yet shows the original and says so."
+
+# Top bar links. `icon` is a file name under assets/icons.
+[[menu.main]]
+name = "Getting Started"
+url = "/getting-started/"
+weight = 10
+[menu.main.params]
+icon = "rocket"
+
+[[menu.main]]
+name = "Writing"
+url = "/writing/"
+weight = 20
+[menu.main.params]
+icon = "pencil"
+
+[[menu.main]]
+name = "Customization"
+url = "/customization/"
+weight = 30
+[menu.main.params]
+icon = "sliders"
+
+[languages]
+[languages.en]
+label = "English"
+weight = 1
+contentDir = "content/en"
+[languages.uk]
+label = "Українська"
+weight = 2
+contentDir = "content/uk"
+[languages.uk.params]
+description = "Тема документації для Hugo"
+lead = "Тема Hugo для документації продуктів та API."
+tagline = "Не задокоментовано,"
+tagline_sub = "не зроблено."
+features_title = "Що всередині"
+
+[[languages.uk.params.features]]
+title = "Меню збирається саме"
+description = "Покладіть сторінку в теку, і вона з'явиться в бічному меню. Нічого не треба прописувати вручну."
+[[languages.uk.params.features]]
+title = "Миттєвий пошук"
+description = "Натисніть Cmd+K або / і почніть друкувати. Пошук працює в браузері, тож нічого не треба налаштовувати чи оплачувати."
+[[languages.uk.params.features]]
+title = "Завжди видно, де ви"
+description = "Список заголовків біля сторінки підсвічує розділ, який ви зараз читаєте."
+[[languages.uk.params.features]]
+title = "Поради, попередження, нотатки"
+description = "Готові блоки, щоб важливе впадало в око, підказки до термінів при наведенні та набір іконок."
+[[languages.uk.params.features]]
+title = "Документація API з вашої специфікації"
+description = "Вкажіть сторінці файл OpenAPI й отримайте інтерактивну документацію API без сторонніх сервісів."
+[[languages.uk.params.features]]
+title = "Документація кількома мовами"
+description = "Перекладайте у своєму темпі. Неперекладена сторінка показує оригінал і прямо про це каже."
+
+# Hugo does not take these two from a theme, so every site states them.
+# The JSON output is the search index, fetched by the search dialog.
+[outputs]
+home = ["HTML", "JSON"]
+
+[markup]
+[markup.tableOfContents]
+startLevel = 2
+endLevel = 4
+[markup.highlight]
+# Inline styles, since the theme ships no Chroma stylesheet. Pick a dark
+# style - code blocks stay dark on the light theme too.
+style = "github-dark"
+noClasses = true
+tabWidth = 2
+[markup.goldmark.renderer]
+# Lets raw HTML in markdown through (a <br> in a table cell, a <details>).
+unsafe = true
+
+[taxonomies]
+tag = "tags"

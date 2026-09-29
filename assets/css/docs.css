@@ -1,0 +1,1630 @@
+/* ========== Buttons ========== */
+.cs-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 500;
+  height: 40px;
+  padding: 0 18px;
+  border-radius: var(--r-sm);
+  border: 1px solid transparent;
+  cursor: pointer;
+  text-decoration: none;
+  white-space: nowrap;
+  letter-spacing: -0.005em;
+  transition:
+    background var(--dur-fast) var(--ease-standard),
+    border-color var(--dur-fast) var(--ease-standard),
+    transform var(--dur-fast) var(--ease-standard);
+}
+.cs-btn:hover {
+  color: inherit;
+  border-bottom-color: transparent;
+}
+.cs-btn:active {
+  transform: scale(0.98);
+}
+/* Ink on paper, inverted with the theme: fg-0 is near-black on the light
+   theme and near-white on the dark one, bg-0 the opposite. Not the
+   mid-ramp brand-500, which is a grey button on a black-and-white page. */
+.cs-btn-primary {
+  background: var(--fg-0);
+  color: var(--bg-0);
+  border-color: var(--fg-0);
+}
+.cs-btn-primary:hover {
+  background: var(--fg-1);
+  border-color: var(--fg-1);
+  color: var(--bg-0);
+}
+.cs-btn-ghost {
+  background: var(--bg-3);
+  color: var(--fg-0);
+  border-color: var(--line-2);
+}
+.cs-btn-ghost:hover {
+  background: var(--bg-4);
+  border-color: var(--line-3);
+}
+.cs-btn-lg {
+  height: 48px;
+  padding: 0 22px;
+  font-size: 15px;
+}
+.cs-btn-sm {
+  height: 32px;
+  padding: 0 12px;
+  font-size: 13px;
+}
+/* Optional leading icon (cta_icon) - inherits the button's text color. */
+.cs-btn-ico {
+  width: 1.05em;
+  height: 1.05em;
+  color: currentColor;
+}
+
+/* ========== Top nav ========== */
+.cs-nav {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  background: var(--nav-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--line-1);
+}
+.cs-nav-inner {
+  max-width: var(--page-max);
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+  height: var(--nav-h);
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+.cs-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--fg-0);
+  font-weight: 600;
+  font-size: 16px;
+  border: 0;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+}
+.cs-brand img {
+  height: 20px;
+  width: auto;
+  display: block;
+}
+.cs-brand:hover {
+  color: var(--fg-0);
+  border: 0;
+}
+.cs-brand-sub {
+  font-style: normal;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--fg-3);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  border: 1px solid var(--line-2);
+  padding: 2px 6px;
+  border-radius: var(--r-xs);
+  margin-left: 6px;
+}
+.cs-nav-links {
+  display: flex;
+  gap: 24px;
+  margin-left: 8px;
+}
+.cs-nav-links a {
+  color: var(--fg-2);
+  font-size: 14px;
+  border: 0;
+  white-space: nowrap;
+}
+.cs-nav-links a:hover {
+  color: var(--fg-0);
+}
+.cs-ext {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--fg-3);
+}
+.cs-nav-cta {
+  margin-left: auto;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+@media (max-width: 780px) {
+  .cs-nav-links,
+  .cs-nav-cta {
+    display: none;
+  }
+}
+
+/* ========== Theme toggle ========== */
+.cs-theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  background: var(--bg-3);
+  color: var(--fg-1);
+  border: 1px solid var(--line-2);
+  border-radius: var(--r-sm);
+  cursor: pointer;
+  transition:
+    background var(--dur-fast) var(--ease-standard),
+    border-color var(--dur-fast) var(--ease-standard),
+    color var(--dur-fast) var(--ease-standard);
+}
+.cs-theme-toggle:hover {
+  background: var(--bg-4);
+  border-color: var(--line-3);
+  color: var(--fg-0);
+}
+.cs-theme-ico {
+  width: 18px;
+  height: 18px;
+}
+/* Show the icon of the currently active theme (moon = dark, sun = light).
+   Scoped under .cs-theme-toggle so these win over the base .cs-ico
+   display:inline-block (same specificity, defined later in this file). */
+.cs-theme-toggle .cs-theme-sun {
+  display: none;
+}
+.cs-theme-toggle .cs-theme-moon {
+  display: inline-block;
+}
+:root[data-theme="light"] .cs-theme-toggle .cs-theme-sun {
+  display: inline-block;
+}
+:root[data-theme="light"] .cs-theme-toggle .cs-theme-moon {
+  display: none;
+}
+/* ========== Language switcher ========== */
+.cs-lang {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  height: 30px;
+  padding: 0 3px;
+  background: var(--bg-3);
+  border: 1px solid var(--line-2);
+  border-radius: var(--r-sm);
+}
+.cs-lang-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 28px;
+  height: 22px;
+  padding: 0 6px;
+  border-radius: var(--r-xs);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--fg-2);
+  transition:
+    background var(--dur-fast) var(--ease-standard),
+    color var(--dur-fast) var(--ease-standard);
+}
+.cs-lang-link:hover {
+  color: var(--fg-0);
+}
+.cs-lang-cur {
+  background: var(--bg-1);
+  color: var(--brand-300);
+}
+
+/* "EN"-style tag on nav entries that fall back to the primary language (a page
+   not translated into the current language yet). */
+.cs-nav-tag {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 0 4px;
+  border: 1px solid var(--line-2);
+  border-radius: var(--r-xs);
+  font-family: var(--font-mono);
+  font-size: 9px;
+  line-height: 1.6;
+  letter-spacing: var(--tracking-label);
+  vertical-align: middle;
+  color: var(--fg-3);
+}
+/* Stale-translation notice sits above the article body. */
+.cs-translation-notice {
+  margin-bottom: 24px;
+}
+
+@media (max-width: 780px) {
+  /* Nav links/CTA are hidden here. Tighten the bar and push the remaining
+     controls (search, language, theme, burger) into one cluster on the right. */
+  .cs-nav-inner {
+    gap: 8px;
+  }
+  .cs-search-trigger {
+    margin-left: auto;
+  }
+}
+
+/* ========== Mobile menu (hamburger + drawer) ========== */
+.cs-burger {
+  display: none; /* revealed at 780px and below */
+  margin-left: auto;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  background: var(--bg-3);
+  border: 1px solid var(--line-2);
+  border-radius: var(--r-sm);
+  cursor: pointer;
+}
+.cs-burger:hover {
+  background: var(--bg-4);
+  border-color: var(--line-3);
+}
+.cs-burger-bars {
+  position: relative;
+  display: block;
+  width: 18px;
+  height: 12px;
+}
+.cs-burger-bars span {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--fg-0);
+  transition:
+    top var(--dur-base) var(--ease-standard),
+    transform var(--dur-base) var(--ease-standard),
+    opacity var(--dur-fast) var(--ease-standard);
+}
+.cs-burger-bars span:nth-child(1) {
+  top: 0;
+}
+.cs-burger-bars span:nth-child(2) {
+  top: 5px;
+}
+.cs-burger-bars span:nth-child(3) {
+  top: 10px;
+}
+.cs-burger[aria-expanded="true"] .cs-burger-bars span:nth-child(1) {
+  top: 5px;
+  transform: rotate(45deg);
+}
+.cs-burger[aria-expanded="true"] .cs-burger-bars span:nth-child(2) {
+  opacity: 0;
+}
+.cs-burger[aria-expanded="true"] .cs-burger-bars span:nth-child(3) {
+  top: 5px;
+  transform: rotate(-45deg);
+}
+
+.cs-mobile-menu {
+  display: none; /* revealed at 780px and below */
+  position: fixed;
+  inset: var(--nav-h) 0 0 0;
+  z-index: 39;
+  background: var(--overlay-bg);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition:
+    opacity var(--dur-base) var(--ease-standard),
+    visibility var(--dur-base) var(--ease-standard);
+}
+.cs-mobile-menu.is-open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+.cs-mobile-menu-inner {
+  max-height: 100%;
+  overflow-y: auto;
+  padding: 8px var(--gutter) 32px;
+  background: var(--bg-1);
+  border-bottom: 1px solid var(--line-1);
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-12px);
+  transition: transform var(--dur-base) var(--ease-emphasis);
+}
+.cs-mobile-menu.is-open .cs-mobile-menu-inner {
+  transform: translateY(0);
+}
+.cs-mobile-sec {
+  padding: 12px 0;
+  border-bottom: 1px solid var(--line-1);
+}
+.cs-mobile-sec:last-of-type {
+  border-bottom: 0;
+}
+.cs-mobile-h {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 4px 8px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-label);
+  color: var(--fg-3);
+}
+.cs-mobile-menu a {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 8px;
+  border: 0;
+  border-radius: var(--r-sm);
+  color: var(--fg-1);
+  font-size: 15px;
+}
+.cs-mobile-menu a:hover {
+  color: var(--fg-0);
+  background: var(--bg-2);
+}
+.cs-mobile-menu a.cs-active {
+  color: var(--brand-300);
+}
+.cs-mobile-menu a.cs-mobile-cta,
+.cs-mobile-menu a.cs-mobile-cta:hover {
+  margin-top: 16px;
+  justify-content: center;
+  background: var(--brand-500);
+  color: #1a0a03;
+}
+body.cs-menu-open {
+  overflow: hidden;
+}
+@media (prefers-reduced-motion: reduce) {
+  .cs-mobile-menu,
+  .cs-mobile-menu-inner,
+  .cs-burger-bars span {
+    transition: none;
+  }
+}
+/* Reveal kept after the base rules above so it wins at equal specificity. */
+@media (max-width: 780px) {
+  .cs-burger {
+    display: inline-flex;
+  }
+  .cs-mobile-menu {
+    display: block;
+  }
+}
+
+/* ========== Shell layout ========== */
+.cs-shell {
+  max-width: var(--page-max);
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+  display: grid;
+  grid-template-columns: var(--side-w) minmax(0, 1fr) var(--toc-w);
+  gap: 48px;
+  align-items: flex-start;
+}
+.cs-shell:has(.cs-main-wide) {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0;
+  padding: 0;
+  max-width: none;
+}
+@media (max-width: 1080px) {
+  .cs-shell {
+    grid-template-columns: var(--side-w) minmax(0, 1fr);
+    gap: 32px;
+  }
+  .cs-toc {
+    display: none;
+  }
+}
+@media (max-width: 780px) {
+  .cs-shell {
+    grid-template-columns: minmax(0, 1fr);
+    padding: 0 var(--gutter);
+  }
+  .cs-side {
+    display: none;
+  }
+}
+
+/* ========== Sidebar ========== */
+.cs-side {
+  position: sticky;
+  top: var(--nav-h);
+  align-self: flex-start;
+  /* Cap the height to the viewport below the nav and scroll internally, so a
+     menu taller than the screen is fully reachable regardless of how long (or
+     short) the article is. Without this the sidebar's height tracks its own
+     content and its lower items are only reachable by scrolling the page -
+     which stops once the main content ends. Mirrors .cs-toc below. */
+  max-height: calc(100vh - var(--nav-h));
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 32px 0 64px;
+  border-right: 1px solid var(--line-1);
+}
+.cs-side-inner {
+  padding-right: 24px;
+}
+.cs-side-group {
+  margin-bottom: 28px;
+}
+/* A SECTION LABEL IS NOT DIMMER THAN THE PAGES UNDER IT, or the pages read
+   as the important thing and the section as a caption. Size cannot carry
+   the difference: 11px is the CEILING here, since the longest label fills
+   the column at that size and overflows at 12px. So weight, case and
+   colour do the work. */
+.cs-side-h {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-label);
+  color: var(--fg-2);
+  margin: 0 0 8px 12px;
+}
+.cs-side ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.cs-side li {
+  margin: 0;
+}
+/* A PAGE LINES UP WITH ITS SECTION'S TITLE, NOT WITH ITS ICON. The header is
+   12px in and is a flex row of an 11px icon (1em at its own font size) and
+   an 8px gap, so its title starts at 31px. The 2px transparent border-left
+   every row carries is part of the measure, which is why this is 29 and not
+   31: the border is where the active marker appears, at the row's own left
+   edge. */
+/* 13px, which is the TOC's size for the same thing - a list of page links
+   down a rail. The two rails flanking the article are one scale: 11px
+   label, 13px link. */
+.cs-side li a {
+  display: block;
+  padding: 6px 12px 6px 29px;
+  border-radius: var(--r-sm);
+  color: var(--fg-2);
+  font-size: 13px;
+  border: 0;
+  border-left: 2px solid transparent;
+}
+.cs-side li a:hover {
+  color: var(--fg-0);
+  background: var(--bg-2);
+  border-left-color: var(--line-3);
+}
+/* The wash is a literal rgba rather than a token, so it does not follow the
+   ramp through var() and has to be stated per theme. It is on screen on
+   every page, which is what makes it worth the second rule. */
+.cs-side li.cs-active a {
+  color: var(--fg-0);
+  background: linear-gradient(90deg, rgba(250, 250, 250, 0.07), transparent);
+  border-left-color: var(--brand-800);
+}
+:root[data-theme='light'] .cs-side li.cs-active a {
+  background: linear-gradient(90deg, rgba(10, 10, 10, 0.06), transparent);
+}
+
+/* Collapsible sections: rendered as <details>, the header is the <summary>.
+   Sections without sub-pages stay plain (.cs-side-group div) and get no toggle. */
+details.cs-side-collapsible {
+  margin-bottom: 28px;
+}
+.cs-side-summary {
+  cursor: pointer;
+  list-style: none; /* drop the native disclosure triangle (Firefox) */
+  user-select: none;
+}
+.cs-side-summary::-webkit-details-marker {
+  display: none; /* ...and WebKit/Blink */
+}
+.cs-side-summary:hover {
+  color: var(--fg-1);
+}
+/* Section header emphasis when the current page is this section's (unlinked)
+   _index - gives feedback the index li would otherwise provide. */
+.cs-side-h-active,
+.cs-side-h-active .cs-side-title {
+  color: var(--fg-0);
+}
+.cs-side-summary:focus-visible {
+  outline: 2px solid var(--brand-500);
+  outline-offset: 2px;
+  border-radius: var(--r-sm);
+}
+.cs-side-title {
+  min-width: 0;
+}
+.cs-side-chevron {
+  width: 13px;
+  height: 13px;
+  flex: none;
+  margin-left: auto; /* push to the right edge of the row */
+  color: var(--fg-3);
+  transition: transform var(--dur-fast) var(--ease-standard);
+}
+details.cs-side-collapsible[open] > .cs-side-summary .cs-side-chevron {
+  transform: rotate(90deg);
+}
+/* gentle reveal of the list on expand (no layout/height animation) */
+details.cs-side-collapsible[open] > ul {
+  animation: cs-side-reveal 0.18s var(--ease-standard);
+}
+@keyframes cs-side-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(-2px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cs-side-chevron {
+    transition: none;
+  }
+  details.cs-side-collapsible[open] > ul {
+    animation: none;
+  }
+}
+
+/* ========== Main / article ========== */
+.cs-main {
+  padding: 40px 0 96px;
+  min-width: 0;
+  max-width: 1000px;
+}
+.cs-main-wide {
+  padding: 0;
+  max-width: none;
+}
+
+.cs-article-head {
+  margin-bottom: 40px;
+}
+.cs-article-head h1 {
+  margin-top: 8px;
+}
+.cs-article-head .cs-eyebrow {
+  margin-bottom: 12px;
+}
+.cs-lead {
+  font-size: 19px;
+  line-height: 1.55;
+  color: var(--fg-1);
+  margin: 16px 0 0;
+  max-width: 720px;
+}
+
+.cs-article-meta {
+  margin-top: 14px;
+}
+
+/* ========== TOC ========== */
+.cs-toc {
+  position: sticky;
+  top: calc(var(--nav-h) + 24px);
+  align-self: flex-start;
+  padding: 32px 0 64px;
+  font-size: 13px;
+  max-height: calc(100vh - var(--nav-h) - 32px);
+  overflow-y: auto;
+}
+.cs-toc-h {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-label);
+  color: var(--fg-3);
+  margin-bottom: 10px;
+}
+.cs-toc nav,
+.cs-toc #TableOfContents {
+  margin: 0;
+  position: relative;
+}
+.cs-toc ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.cs-toc ul ul {
+  padding-left: 14px;
+}
+/* Gutter the rail is drawn in. It is reserved in CSS rather than by the
+   script, so the entries sit in the same place whether or not the rail
+   was built - the rail is an ornament and must not move the text. */
+.cs-toc #TableOfContents > ul {
+  padding-left: 18px;
+}
+.cs-toc li {
+  margin: 4px 0;
+}
+.cs-toc a {
+  color: var(--fg-2);
+  border: 0;
+  font-size: 13px;
+  line-height: 1.45;
+}
+.cs-toc a:hover {
+  color: var(--brand-300);
+}
+/* Section currently in view, set by the TOC scrollspy in theme.js. */
+.cs-toc a.is-active {
+  color: var(--brand-300);
+  font-weight: 600;
+}
+/* The rail: one path traced through the entries, built by theme.js. The
+   background copy is the whole path, the foreground copy is a single dash
+   sliding along it - so the highlight follows the indentation between two
+   entries at different depths instead of jumping across the gutter. */
+.cs-toc-rail {
+  position: absolute;
+  left: 0;
+  top: 0;
+  overflow: visible;
+  pointer-events: none;
+}
+.cs-toc-rail path {
+  fill: none;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.cs-toc-rail-bg {
+  stroke: var(--line-2);
+}
+.cs-toc-rail-on {
+  stroke: var(--brand-400);
+  transition:
+    stroke-dasharray 0.36s cubic-bezier(0.4, 0, 0.2, 1),
+    stroke-dashoffset 0.36s cubic-bezier(0.4, 0, 0.2, 1);
+}
+@media (prefers-reduced-motion: reduce) {
+  .cs-toc-rail-on {
+    transition: none;
+  }
+}
+.cs-toc-edit {
+  display: inline-block;
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid var(--line-1);
+  border-bottom: 0;
+  font-size: 13px;
+  color: var(--fg-2);
+}
+.cs-toc-edit:hover {
+  color: var(--brand-300);
+}
+
+/* ========== Prose ========== */
+.cs-prose {
+  max-width: 780px;
+}
+.cs-prose > * + * {
+  margin-top: 18px;
+}
+/* A LINK IN THE PROSE CANNOT BE TOLD BY ITS COLOUR. On an ink accent a link
+   is the same ink as the text around it, so the border-bottom is the only
+   cue, and the 1px --line-2 rule every `a` carries is 1.3:1 against the
+   page. --fg-3 is a mid grey in BOTH themes (#6b7280 / #6b7480), so one
+   declaration is enough. Structural links - nav, sidebar, toc, footer - are
+   outside .cs-prose and keep the quieter rule. */
+.cs-prose a {
+  border-bottom-color: var(--fg-3);
+}
+.cs-prose a:hover {
+  border-bottom-color: currentColor;
+}
+.cs-prose h2 {
+  margin-top: 48px;
+  padding-top: 24px;
+  border-top: 1px solid var(--line-1);
+}
+.cs-prose h2:first-child {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: 0;
+}
+.cs-prose h3 {
+  margin-top: 32px;
+}
+.cs-prose h4 {
+  margin-top: 24px;
+}
+.cs-prose ul,
+.cs-prose ol {
+  padding-left: 22px;
+  line-height: var(--lh-loose);
+}
+.cs-prose li {
+  margin: 6px 0;
+}
+.cs-prose blockquote {
+  padding: 14px 20px;
+  border-left: 3px solid var(--brand-500);
+  background: var(--bg-2);
+  border-radius: 0 var(--r-sm) var(--r-sm) 0;
+  color: var(--fg-1);
+  margin: 20px 0 20px 0;
+}
+.cs-prose blockquote p {
+  font-size: 15px;
+  color: var(--fg-1);
+}
+.cs-prose img {
+  max-width: 100%;
+  border-radius: var(--r-md);
+  border: 1px solid var(--line-2);
+}
+/* The frame lives on the wrapper, not the table: a table wider than the
+   column scrolls INSIDE this, and the border and radius have to be drawn
+   at the scroll boundary or they scroll away with the content. Written
+   by the render-table hook, so every prose table has one. */
+.cs-table-wrap {
+  overflow-x: auto;
+  background: var(--bg-2);
+  border: 1px solid var(--line-2);
+  border-radius: var(--r-md);
+}
+.cs-table-wrap:focus-visible {
+  outline: 2px solid var(--brand-500);
+  outline-offset: 2px;
+}
+.cs-prose table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+.cs-prose table th,
+.cs-prose table td {
+  text-align: left;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--line-1);
+}
+.cs-prose table th {
+  background: var(--bg-3);
+  color: var(--fg-0);
+  font-weight: 600;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-label);
+}
+.cs-prose table tr:last-child td {
+  border-bottom: 0;
+}
+
+/* ========== Highlighted lines and line numbers ========== */
+/* Chroma writes these colours inline, so only !important reaches them. A
+   LINE wrapper is the one span whose style STARTS with display:flex or
+   with the background - a token span starts with its colour. The style's
+   own line colour is opaque and, in github-dark, the same grey as its line
+   numbers, which is what made a highlighted number vanish. */
+/* A highlighted code line runs to both edges of the frame, across the
+   <pre>'s padding, so the accent sits at the edge rather than against the
+   text. The margin and padding cancel, which keeps the text in column. */
+.highlight pre span[style^="display:flex; background-color"] {
+  background-color: var(--code-hl-bg) !important;
+  box-shadow: inset 2px 0 0 var(--code-hl-accent);
+  margin: 0 -20px;
+  padding: 0 20px;
+}
+/* The line-number column marks a highlighted line by its number alone. */
+.highlight pre span[style^="background-color"] {
+  background-color: transparent !important;
+}
+.highlight pre span[style*="user-select:none"] {
+  color: var(--code-lineno) !important;
+}
+.highlight pre span[style^="display:flex; background-color"] > span[style*="user-select:none"],
+.highlight pre span[style^="background-color"] > span[style*="user-select:none"] {
+  color: var(--code-lineno-hl) !important;
+}
+
+/* linenos in a table (Hugo's default) puts the numbers and the code in two
+   <pre>s. One frame goes around both, on the wrapper Chroma writes. */
+.cs-prose .highlight > div:has(> table) {
+  overflow-x: auto;
+  background: var(--bg-1) !important;
+  border: 1px solid var(--line-1);
+  border-radius: var(--r-md);
+}
+:root[data-theme="light"] .cs-prose .highlight > div:has(> table) {
+  background: #0b0d10 !important;
+  border-color: #1c2128;
+}
+.cs-prose .highlight table {
+  width: 100%;
+  font-size: inherit;
+}
+.cs-prose .highlight table pre {
+  border: 0;
+  border-radius: 0;
+  background: transparent !important;
+  overflow: visible;
+}
+.cs-prose .highlight table td:first-child pre {
+  padding-right: 0;
+}
+
+/* ========== ASCII diagrams (```ascii fenced blocks, via the codeblock hook) ========== */
+/* Reuses the base <pre> frame (bg/border/padding) and overrides the prose
+   line-height and the Space Mono webfont, whose box-drawing and triangle glyphs do not
+   fill the cell. A system monospace stack + tight line-height makes the
+   connectors line up. */
+/* The frame stays full-width (the base <pre>), the art is centred inside it. */
+.cs-ascii {
+  text-align: center;
+  line-height: 1.25;
+}
+/* The art is an inline-block so text-align:center centres it as one rigid unit,
+   while its own text stays left-aligned to preserve column alignment. The hook
+   dedents/trims so this centres the art, not stray whitespace. Overrides the
+   Space Mono webfont, whose box-drawing and triangle glyphs do not fill the cell. */
+.cs-ascii-art {
+  display: inline-block;
+  text-align: left;
+  white-space: pre;
+  font-family: ui-monospace, "SF Mono", "Cascadia Mono", Menlo, Consolas,
+    "DejaVu Sans Mono", "Liberation Mono", monospace;
+  line-height: 1.25;
+  letter-spacing: 0;
+  font-variant-ligatures: none;
+  font-feature-settings: normal;
+  color: var(--fg-1);
+  -moz-tab-size: 4;
+  tab-size: 4;
+}
+
+/* ========== Inline icons (assets/icons/*.svg via the icon partial) ========== */
+.cs-ico {
+  width: 1em;
+  height: 1em;
+  display: inline-block;
+  vertical-align: -0.14em;
+  flex: none;
+}
+
+/* ========== Callout shortcode ========== */
+.cs-callout {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin: 24px 0;
+  padding: 14px 18px;
+  border: 1px solid var(--line-2);
+  border-left-width: 3px;
+  border-radius: var(--r-md);
+  background: var(--bg-2);
+}
+.cs-callout-icon {
+  flex: none;
+  margin-top: 2px;
+  color: var(--fg-2);
+}
+.cs-callout-icon .cs-ico {
+  width: 1.2em;
+  height: 1.2em;
+}
+.cs-callout-body {
+  min-width: 0;
+  flex: 1;
+}
+.cs-callout-body > * + * {
+  margin-top: 10px;
+}
+.cs-callout-body > :last-child {
+  margin-bottom: 0;
+}
+.cs-callout-title {
+  margin: 0;
+  font-weight: 600;
+  line-height: var(--lh-snug);
+  color: var(--fg-0);
+}
+.cs-callout-info {
+  border-color: rgba(96, 165, 250, 0.4);
+  border-left-color: var(--info);
+  background: var(--info-bg);
+}
+.cs-callout-tip,
+.cs-callout-success {
+  border-color: rgba(74, 222, 128, 0.4);
+  border-left-color: var(--ok);
+  background: var(--ok-bg);
+}
+.cs-callout-warning {
+  border-color: rgba(245, 158, 11, 0.4);
+  border-left-color: var(--warn);
+  background: var(--warn-bg);
+}
+.cs-callout-danger {
+  border-color: rgba(239, 68, 68, 0.4);
+  border-left-color: var(--crit);
+  background: var(--crit-bg);
+}
+.cs-callout-note {
+  border-left-color: var(--fg-3);
+}
+.cs-callout-info .cs-callout-icon,
+.cs-callout-info .cs-callout-title {
+  color: var(--info);
+}
+.cs-callout-tip .cs-callout-icon,
+.cs-callout-tip .cs-callout-title,
+.cs-callout-success .cs-callout-icon,
+.cs-callout-success .cs-callout-title {
+  color: var(--ok);
+}
+.cs-callout-warning .cs-callout-icon,
+.cs-callout-warning .cs-callout-title {
+  color: var(--warn);
+}
+.cs-callout-danger .cs-callout-icon,
+.cs-callout-danger .cs-callout-title {
+  color: var(--crit);
+}
+
+/* ========== Nav + sidebar item icons ========== */
+.cs-nav-links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+.cs-nav-ico {
+  color: var(--fg-3);
+}
+.cs-nav-links a:hover .cs-nav-ico {
+  color: var(--brand-400);
+}
+.cs-side-h {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.cs-side-ico {
+  color: var(--brand-500);
+}
+
+/* ========== Tooltip shortcode (CSS-only, hover + focus) ========== */
+.cs-tooltip {
+  position: relative;
+  border-bottom: 1px dotted var(--fg-3);
+  cursor: help;
+  outline: none;
+  transition: border-color var(--dur-fast) var(--ease-standard);
+}
+.cs-tooltip:hover,
+.cs-tooltip:focus {
+  border-bottom-color: var(--brand-500);
+}
+.cs-tooltip-bubble {
+  position: absolute;
+  bottom: calc(100% + 9px);
+  left: 50%;
+  z-index: 60;
+  width: max-content;
+  max-width: 280px;
+  padding: 8px 11px;
+  font-family: var(--font-sans);
+  font-size: var(--fs-small);
+  font-weight: 400;
+  line-height: var(--lh-snug);
+  letter-spacing: var(--tracking-body);
+  color: var(--fg-0);
+  text-align: left;
+  white-space: normal;
+  background: var(--bg-4);
+  border: 1px solid var(--line-3);
+  border-radius: var(--r-sm);
+  box-shadow: var(--shadow-md);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translate(-50%, 4px);
+  transition:
+    opacity var(--dur-fast) var(--ease-standard),
+    transform var(--dur-fast) var(--ease-standard);
+}
+.cs-tooltip-bubble::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-top-color: var(--bg-4);
+}
+.cs-tooltip:hover .cs-tooltip-bubble,
+.cs-tooltip:focus .cs-tooltip-bubble,
+.cs-tooltip:focus-within .cs-tooltip-bubble {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(-50%, 0);
+}
+
+/* ========== List grid (sections + home) ========== */
+.cs-list-grid {
+  margin-top: 40px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 14px;
+}
+.cs-list-card {
+  position: relative;
+  display: block;
+  padding: 20px 22px;
+  background: var(--bg-2);
+  border: 1px solid var(--line-2);
+  border-radius: var(--r-md);
+  border-bottom: 1px solid var(--line-2);
+  color: var(--fg-1);
+  transition:
+    border-color var(--dur-fast) var(--ease-standard),
+    background var(--dur-fast) var(--ease-standard),
+    transform var(--dur-fast) var(--ease-standard);
+}
+.cs-list-card:hover {
+  border-color: var(--brand-500);
+  background: var(--bg-3);
+  transform: translateY(-1px);
+  color: var(--fg-0);
+}
+.cs-list-card-h {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--fg-0);
+  margin-bottom: 6px;
+}
+.cs-list-card-d {
+  color: var(--fg-2);
+  font-size: 13px;
+  line-height: 1.55;
+}
+.cs-list-card-arrow {
+  position: absolute;
+  top: 18px;
+  right: 20px;
+  color: var(--fg-3);
+  font-size: 14px;
+}
+.cs-list-card:hover .cs-list-card-arrow {
+  color: var(--brand-500);
+}
+/* Feature cards are informational, not links - keep them static on hover. */
+.cs-feature-card:hover {
+  border-color: var(--line-2);
+  background: var(--bg-2);
+  transform: none;
+  color: var(--fg-1);
+}
+
+/* ========== Pager ========== */
+.cs-pager {
+  margin-top: 64px;
+  padding-top: 24px;
+  border-top: 1px solid var(--line-1);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+.cs-pager-link {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 16px 18px;
+  background: var(--bg-2);
+  border: 1px solid var(--line-2);
+  border-radius: var(--r-md);
+  color: var(--fg-1);
+}
+.cs-pager-link:hover {
+  border-color: var(--brand-500);
+  color: var(--fg-0);
+}
+.cs-pager-next {
+  text-align: right;
+}
+.cs-pager-d {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.cs-pager-t {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--fg-0);
+}
+
+/* ========== Hero (home) ========== */
+.cs-hero {
+  padding: 96px 0 80px;
+  max-width: var(--page-max);
+  margin: 0 auto;
+  padding-left: var(--gutter);
+  padding-right: var(--gutter);
+}
+.cs-hero-inner {
+  display: grid;
+  grid-template-columns: 1.05fr 1fr;
+  gap: 64px;
+  align-items: center;
+}
+@media (max-width: 900px) {
+  .cs-hero-inner {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+}
+.cs-display {
+  font-size: clamp(44px, 5.4vw, 72px);
+  line-height: 1.02;
+  letter-spacing: -0.035em;
+  color: var(--brand-500);
+  font-weight: 600;
+  margin: 16px 0 24px;
+}
+.cs-display-sub {
+  font-size: clamp(44px, 5.4vw, 72px);
+  line-height: 1.02;
+  letter-spacing: -0.035em;
+  color: var(--fg-0);
+  font-weight: 600;
+  margin: 16px 0 24px;
+}
+.cs-hero-ctas {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin: 32px 0 28px;
+}
+.cs-hero-trust {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--fg-3);
+}
+
+.cs-section-tight {
+  padding: 64px 0;
+}
+.cs-section-inner {
+  max-width: var(--page-max);
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+}
+.cs-h2 {
+  font-size: clamp(28px, 3vw, 36px);
+  line-height: 1.15;
+  letter-spacing: -0.025em;
+  color: var(--fg-0);
+  font-weight: 600;
+  margin: 8px 0 24px;
+  max-width: 720px;
+}
+/* Terminal block (home) */
+.cs-terminal {
+  background: var(--bg-2);
+  border: 1px solid var(--line-2);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  box-shadow:
+    0 30px 80px rgba(0, 0, 0, 0.6),
+    0 0 0 1px rgba(255, 107, 53, 0.08),
+    0 0 60px rgba(255, 107, 53, 0.08);
+}
+.cs-terminal-chrome {
+  background: var(--bg-3);
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border-bottom: 1px solid var(--line-1);
+}
+.cs-terminal-chrome .dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+.cs-terminal-chrome .dot.r {
+  background: #ff5f57;
+}
+.cs-terminal-chrome .dot.y {
+  background: #febc2e;
+}
+.cs-terminal-chrome .dot.g {
+  background: #28c840;
+}
+.cs-terminal-title {
+  margin-left: 10px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--fg-3);
+  letter-spacing: 0.02em;
+}
+.cs-terminal-body {
+  margin: 0;
+  padding: 20px 22px;
+  font-family: var(--font-code);
+  font-size: 13px;
+  line-height: 1.8;
+  color: var(--fg-1);
+  min-height: 340px;
+  white-space: pre-wrap;
+}
+.cs-terminal-quiet .cs-terminal-body {
+  min-height: 200px;
+}
+
+/* Hero image in the terminal frame. The ratio is the text terminal's, so
+   swapping one for the other does not move the hero. */
+.cs-hero-media {
+  margin: 0;
+}
+.cs-hero-img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1320 / 680;
+  object-fit: cover;
+  object-position: center;
+  background: var(--bg-1);
+}
+
+/* Product shot (home) - reuses the terminal window frame for the screenshot */
+.cs-shot {
+  display: block;
+  margin: 8px auto 0;
+  text-decoration: none;
+  transition:
+    transform 0.16s ease,
+    box-shadow 0.16s ease;
+}
+.cs-shot:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 36px 90px rgba(0, 0, 0, 0.66),
+    0 0 0 1px rgba(255, 107, 53, 0.14),
+    0 0 70px rgba(255, 107, 53, 0.12);
+}
+.cs-shot img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.cs-line {
+  display: block;
+}
+.cs-prefix {
+  display: inline-block;
+  width: 14px;
+}
+/* Terminal text colours. Not .cs-brand, which is the logo in the nav and
+   would bring its size and weight along. */
+.cs-accent {
+  color: var(--brand-500);
+}
+.cs-ok {
+  color: var(--ok);
+}
+.cs-dim {
+  color: var(--fg-3);
+}
+.cs-cursor {
+  color: var(--brand-500);
+  animation: blink 1s steps(2) infinite;
+}
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+/* ========== Footer ========== */
+.cs-footer {
+  border-top: 1px solid var(--line-1);
+  background: var(--bg-1);
+  padding: 64px 0 0;
+  margin-top: 80px;
+}
+.cs-footer-inner {
+  max-width: var(--page-max);
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+  display: grid;
+  grid-template-columns: 1.2fr 2fr;
+  gap: 64px;
+}
+@media (max-width: 780px) {
+  .cs-footer-inner {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+}
+.cs-footer-wordmark {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--fg-0);
+  letter-spacing: -0.01em;
+}
+.cs-footer-cols {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+@media (max-width: 780px) {
+  .cs-footer-cols {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+.cs-footer-h {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--fg-3);
+  margin-bottom: 14px;
+}
+.cs-footer-cols ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.cs-footer-cols li {
+  padding: 4px 0;
+}
+.cs-footer-cols a {
+  color: var(--fg-1);
+  font-size: 14px;
+  border: 0;
+}
+.cs-footer-cols a:hover {
+  color: var(--brand-300);
+}
+.cs-footer-credit a {
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 1px solid var(--line-2);
+}
+.cs-footer-credit a:hover {
+  color: var(--fg-1);
+  border-bottom-color: var(--fg-3);
+}
+.cs-copy-sign {
+  font-family: var(--font-sans);
+}
+.cs-footer-bar {
+  max-width: var(--page-max);
+  margin: 48px auto 0;
+  padding: 20px var(--gutter);
+  border-top: 1px solid var(--line-1);
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* ========== Anchor links on headings ========== */
+.cs-prose h2,
+.cs-prose h3,
+.cs-prose h4 {
+  scroll-margin-top: calc(var(--nav-h) + 16px);
+}
+
+/* ========== Changelog ========== */
+.cs-changelog {
+  margin-top: 48px;
+}
+.cs-changelog-group + .cs-changelog-group {
+  margin-top: 40px;
+}
+.cs-changelog-month {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-label);
+  color: var(--fg-3);
+  padding-bottom: 12px;
+  margin: 0 0 4px;
+  border-bottom: 1px solid var(--line-1);
+}
+.cs-changelog-entry {
+  display: grid;
+  grid-template-columns: 92px minmax(0, 1fr);
+  gap: 24px;
+  padding: 22px 0;
+  border-bottom: 1px solid var(--line-1);
+}
+.cs-changelog-entry:last-child {
+  border-bottom: 0;
+}
+.cs-changelog-date {
+  padding-top: 4px;
+  white-space: nowrap;
+}
+.cs-changelog-h {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0;
+}
+.cs-changelog-h a {
+  color: var(--fg-0);
+  border: 0;
+}
+.cs-changelog-h a:hover {
+  color: var(--brand-300);
+}
+.cs-changelog-d {
+  color: var(--fg-2);
+  font-size: 14px;
+  line-height: 1.6;
+  margin-top: 6px;
+}
+.cs-changelog-empty {
+  margin-top: 40px;
+}
+@media (max-width: 640px) {
+  .cs-changelog-entry {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 8px;
+  }
+}
+
+/* Tag chips */
+.cs-changelog-tags {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 12px;
+}
+.cs-tag {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--fg-3);
+  background: var(--bg-2);
+  border: 1px solid var(--line-2);
+  border-radius: var(--r-xs);
+  padding: 2px 8px;
+}
+.cs-tag:hover {
+  color: var(--brand-300);
+  border-color: var(--brand-500);
+}
+
+/* "New" badge */
+.cs-badge {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 2px 9px;
+  border-radius: var(--r-pill);
+  line-height: 1.6;
+}
+.cs-badge-new {
+  color: #1a0a03;
+  background: var(--brand-500);
+}
+
+/* Single entry meta (date + authors) */
+.cs-changelog-single-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.cs-authors {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.cs-authors::before {
+  content: "·";
+  color: var(--fg-4);
+}
+.cs-author {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--fg-2);
+  font-family: var(--font-sans);
+  font-size: 13px;
+  border: 0;
+}
+.cs-author:hover {
+  color: var(--fg-0);
+}
+.cs-author img {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: block;
+  border: 1px solid var(--line-2);
+}
+
+/* --------- API reference (Scalar) --------- */
+/* Only tokens are mapped, never Scalar's layout: the viewer keeps its own
+   sidebar and columns and takes the article width. The values are the
+   site's, so the page reads as this site in both themes - the dark-first
+   block below is overridden by the light one exactly as tokens.css does. */
+.cs-article-reference .cs-article-head {
+  margin-bottom: 24px;
+}
+/* The viewer brings a sidebar of its own, so the page gives it the TOC
+   column (toc: false in front matter) and lifts the article's max width.
+   The site sidebar stays: it is how the reader leaves this page. */
+.cs-shell:has(.cs-article-reference) {
+  grid-template-columns: var(--side-w) minmax(0, 1fr);
+}
+.cs-shell:has(.cs-article-reference) .cs-main {
+  max-width: none;
+}
+.cs-reference {
+  margin-top: 32px;
+  border-top: 1px solid var(--line-1);
+  --scalar-font: var(--font-sans);
+  --scalar-font-code: var(--font-code);
+  --scalar-background-1: var(--bg-0);
+  --scalar-background-2: var(--bg-1);
+  --scalar-background-3: var(--bg-2);
+  --scalar-background-accent: var(--bg-3);
+  --scalar-color-1: var(--fg-0);
+  --scalar-color-2: var(--fg-2);
+  --scalar-color-3: var(--fg-3);
+  --scalar-color-accent: var(--brand-300);
+  --scalar-border-color: var(--line-1);
+  --scalar-color-green: var(--ok);
+  --scalar-color-red: var(--crit);
+  --scalar-color-yellow: var(--warn);
+  --scalar-color-blue: var(--info);
+  --scalar-link-color: var(--link);
+  --scalar-link-color-hover: var(--link-hover);
+  --scalar-radius: 6px;
+  --scalar-radius-lg: 8px;
+  /* The sidebar reads its own family of tokens, not the page's. */
+  --scalar-sidebar-background-1: var(--bg-0);
+  --scalar-sidebar-color-1: var(--fg-0);
+  --scalar-sidebar-color-2: var(--fg-2);
+  --scalar-sidebar-color-active: var(--fg-0);
+  --scalar-sidebar-border-color: var(--line-1);
+  --scalar-sidebar-item-hover-background: var(--bg-2);
+  --scalar-sidebar-item-hover-color: var(--fg-0);
+  --scalar-sidebar-item-active-background: var(--bg-3);
+  --scalar-sidebar-indent-border: var(--line-1);
+  --scalar-sidebar-indent-border-hover: var(--line-2);
+  --scalar-sidebar-indent-border-active: var(--line-3);
+  --scalar-sidebar-search-background: var(--bg-1);
+  --scalar-sidebar-search-border-color: var(--line-1);
+  --scalar-sidebar-search-color: var(--fg-2);
+}
+[data-theme='light'] .cs-reference {
+  --scalar-color-accent: var(--brand-800);
+}

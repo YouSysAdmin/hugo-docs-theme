@@ -1,0 +1,47 @@
+{{- /* The panel beside the hero title: an image when params.hero_terminal_image is
+       set, otherwise the terminal when params.hero_terminal_lines is, otherwise
+       nothing. Both sit in the same window frame at the same size.
+
+       A raster image under the site's assets/ is cropped to 1320x680 (and
+       660x340 for small screens), which is the frame at twice its size on a
+       wide screen, keeping the part params.hero_terminal_image_anchor names
+       (Center, Top, Bottom, Left, Right, TopLeft, ...). Anything else - an SVG, a file under static/, a URL - is
+       used as it is and fitted to the same shape by CSS. */ -}}
+{{- $p := site.Params -}}
+{{- $title := $p.hero_terminal_title | default (printf "~/%s" (urlize (lower site.Title))) -}}
+{{- with $p.hero_terminal_image -}}
+  {{- $src := . -}}
+  {{- $srcset := "" -}}
+  {{- if not (urls.Parse .).Scheme -}}
+    {{- with resources.Get . -}}
+      {{- if and (eq .ResourceType "image") (ne .MediaType.SubType "svg") -}}
+        {{- $anchor := $p.hero_terminal_image_anchor | default "Center" -}}
+        {{- $big := .Fill (printf "1320x680 %s" $anchor) -}}
+        {{- $small := .Fill (printf "660x340 %s" $anchor) -}}
+        {{- $src = $big.RelPermalink -}}
+        {{- $srcset = printf "%s 660w, %s 1320w" $small.RelPermalink $big.RelPermalink -}}
+      {{- else -}}
+        {{- $src = .RelPermalink -}}
+      {{- end -}}
+    {{- else -}}
+      {{- $src = strings.TrimPrefix "/" . | relURL -}}
+    {{- end -}}
+  {{- end }}
+    <figure class="cs-terminal cs-hero-media">
+      <div class="cs-terminal-chrome">
+        <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+        <span class="cs-terminal-title">{{ $title }}</span>
+      </div>
+      <img class="cs-hero-img" src="{{ $src }}"{{ with $srcset }} srcset="{{ . }}" sizes="(max-width: 900px) 100vw, 660px"{{ end }} width="1320" height="680" alt="{{ $p.hero_terminal_image_alt | default "" }}" loading="eager" decoding="async"/>
+    </figure>
+{{- else -}}
+  {{- with $p.hero_terminal_lines }}
+    <div class="cs-terminal" aria-hidden="true">
+      <div class="cs-terminal-chrome">
+        <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+        <span class="cs-terminal-title">{{ $title }}</span>
+      </div>
+      <pre class="cs-terminal-body">{{ range . }}<span class="cs-line">{{ . | safeHTML }}</span>{{ end }}<span class="cs-line"><span class="cs-prefix cs-accent">$</span><span class="cs-cursor">▎</span></span></pre>
+    </div>
+  {{- end -}}
+{{- end -}}

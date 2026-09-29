@@ -1,0 +1,44 @@
+{{- /*
+  Every prose table is wrapped in its own horizontal scroll container.
+
+  A table does not shrink below its min-content width, so `width: 100%`
+  is a floor rather than a ceiling: a four-column settings table with
+  long env-var names is simply wider than the article column, paints
+  outside it, and slides UNDER the sticky "On this page" rail. The
+  column is already `minmax(0, 1fr)` with `min-width: 0`, so no grid
+  tuning fixes it.
+
+  The wrapper carries the frame (border, radius, background) because it
+  is the element whose edges you actually see once the content scrolls,
+  and clipping has to happen at the scroll boundary.
+
+  tabindex makes the container focusable, so the table is reachable by
+  keyboard on a narrow screen. Without it a scroll region that only
+  responds to a pointer is content some readers cannot get to.
+*/ -}}
+<div class="cs-table-wrap" tabindex="0" role="region" aria-label="Table">
+  <table>
+    {{- with .THead }}
+    <thead>
+      {{- range . }}
+      <tr>
+        {{- range . }}
+        <th{{ with .Alignment }} style="text-align: {{ . }}"{{ end }}>{{ .Text }}</th>
+        {{- end }}
+      </tr>
+      {{- end }}
+    </thead>
+    {{- end }}
+    {{- with .TBody }}
+    <tbody>
+      {{- range . }}
+      <tr>
+        {{- range . }}
+        <td{{ with .Alignment }} style="text-align: {{ . }}"{{ end }}>{{ .Text }}</td>
+        {{- end }}
+      </tr>
+      {{- end }}
+    </tbody>
+    {{- end }}
+  </table>
+</div>

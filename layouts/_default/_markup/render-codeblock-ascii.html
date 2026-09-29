@@ -1,0 +1,33 @@
+{{- /*
+  ASCII / box-drawing diagrams. Use a fenced ```ascii block:
+
+    ```ascii
+    +--------+      +----------------+
+    | Client |-TLS->|     Server     |
+    +--------+      +----------------+
+    ```
+
+  The block is auto-dedented (the common leading indentation is stripped)
+  and trailing spaces are trimmed. The inner .cs-ascii-art is then centred
+  as a rigid unit inside the full-width frame by the CSS, so a diagram can
+  be drawn flush-left or indented and never hand-padded to centre. Rendered
+  in a diagram-friendly <pre> (tight line-height and a monospace stack with
+  full box-drawing coverage) so connectors line up. Unicode box-drawing
+  characters pass through unchanged, and any <, >, & are escaped.
+*/ -}}
+{{- $lines := split (trim .Inner "\n") "\n" -}}
+{{- /* smallest leading-space run across non-blank lines = the common indent */ -}}
+{{- $min := -1 -}}
+{{- range $lines -}}
+  {{- $body := strings.TrimLeft " " . -}}
+  {{- if ne $body "" -}}
+    {{- $lead := sub (len .) (len $body) -}}
+    {{- if or (lt $min 0) (lt $lead $min) -}}{{- $min = $lead -}}{{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- if lt $min 0 -}}{{- $min = 0 -}}{{- end -}}
+{{- $out := slice -}}
+{{- range $lines -}}
+  {{- $out = $out | append (strings.TrimRight " " (substr . $min)) -}}
+{{- end -}}
+<pre class="cs-ascii"><code class="cs-ascii-art">{{ delimit $out "\n" }}</code></pre>

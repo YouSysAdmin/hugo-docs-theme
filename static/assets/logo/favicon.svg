@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <style>
+    .page { stroke: #525252; }
+    .text { stroke: #737373; }
+    @media (prefers-color-scheme: dark) {
+      .page { stroke: #a1a1a1; }
+      .text { stroke: #e5e5e5; }
+    }
+  </style>
+  <g fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <rect class="page" x="5.5" y="3.5" width="21" height="25" rx="3.5"/>
+    <path class="text" d="M11 12.5h10M11 19.5h7"/>
+  </g>
+</svg>

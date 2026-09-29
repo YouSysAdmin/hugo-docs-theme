@@ -1,0 +1,24 @@
+{{- /*
+  Inline tooltip (CSS-only: shows on hover and keyboard focus, no JS).
+
+    {{< tooltip text="Command-line interface" >}}CLI{{< /tooltip >}}
+    {{< tooltip "Command-line interface" >}}CLI{{< /tooltip >}}   (positional)
+    {{< tooltip term="TOML" >}}TOML{{< /tooltip >}}             (data/tooltips)
+
+  The wrapped text (.Inner) is what is shown, the tip is the bubble. `term`
+  looks the tip up in data/tooltips.{toml,yaml,json} so definitions are reusable.
+*/ -}}
+{{- $tip := "" -}}
+{{- $term := "" -}}
+{{- if .IsNamedParams -}}
+  {{- $tip = .Get "text" | default (.Get "tip") -}}
+  {{- $term = .Get "term" -}}
+{{- else -}}
+  {{- $tip = .Get 0 -}}
+{{- end -}}
+{{- with $term -}}
+  {{- $found := index (hugo.Data.tooltips | default dict) . -}}
+  {{- if $found }}{{ $tip = $found }}{{ else }}{{ errorf "tooltip: term %q not found in data/tooltips (page %s)" . $.Page.File.Path }}{{ end -}}
+{{- end -}}
+{{- if not $tip }}{{ errorf "tooltip: provide text=\"…\" or a known term= (page %s)" .Page.File.Path }}{{ end -}}
+{{- "" -}}<span class="cs-tooltip" tabindex="0">{{ .Inner }}<span class="cs-tooltip-bubble" role="tooltip">{{ $tip }}</span></span>

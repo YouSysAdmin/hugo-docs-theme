@@ -1,0 +1,33 @@
+{{- /*
+  Links in the prose.
+
+  A destination with no scheme is first looked up as a PAGE, so a link can
+  name the content file or its path (`/guide/install`, `install.md`,
+  `../reference/cli`) and follows the page if its URL changes. A fragment
+  and a query string are carried over.
+
+  A root-relative link that is not a page (`/images/x.png`) is resolved
+  against baseURL rather than the host, so a site served from a subpath
+  (GitHub Pages, /docs/ inside an app) keeps working.
+
+  Everything else - absolute URLs, anchors, mailto - is written as it came.
+  Absolute links open in a new tab when params.externalLinksNewTab is true.
+*/ -}}
+{{- $href := .Destination -}}
+{{- $external := false -}}
+{{- $u := urls.Parse $href -}}
+{{- if $u.Scheme -}}
+  {{- $external = in (slice "http" "https") $u.Scheme -}}
+{{- else if $u.Path -}}
+  {{- $suffix := "" -}}
+  {{- with $u.RawQuery }}{{ $suffix = printf "?%s" . }}{{ end -}}
+  {{- with $u.Fragment }}{{ $suffix = printf "%s#%s" $suffix . }}{{ end -}}
+  {{- with .PageInner.GetPage (strings.TrimSuffix "/" $u.Path) -}}
+    {{- $href = printf "%s%s" .RelPermalink $suffix -}}
+  {{- else -}}
+    {{- if hasPrefix $u.Path "/" -}}
+      {{- $href = printf "%s%s" (strings.TrimPrefix "/" $u.Path | relURL) $suffix -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+<a href="{{ $href }}"{{ with .Title }} title="{{ . }}"{{ end }}{{ if and $external site.Params.externalLinksNewTab }} target="_blank" rel="noopener"{{ end }}>{{ .Text }}</a>

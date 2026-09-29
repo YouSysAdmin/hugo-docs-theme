@@ -1,0 +1,42 @@
+{{- /*
+  Callout / admonition box.
+
+  THE TITLE IS RENDERED AS INLINE MARKDOWN rather than as plain text.
+  These pages carry titles naming a config key or a field - "`trusted`
+  may not be empty", "`acme_enabled` on its own does nothing" - and plain
+  text prints the backticks.
+
+    {{< callout type="warning" >}}
+    Body text in **markdown**.
+    {{< /callout >}}
+
+  type:  note (default) | info | tip | success | warning | danger
+         aliases: warn->warning, caution/error->danger, important->info
+         (may also be passed positionally: {{< callout warning >}})
+  title: overrides the auto title, and title="" hides it
+  icon:  overrides the auto icon (any name under assets/icons)
+*/ -}}
+{{- $type := "note" -}}
+{{- if .IsNamedParams -}}
+  {{- $type = .Get "type" | default "note" -}}
+{{- else -}}
+  {{- $type = .Get 0 | default "note" -}}
+{{- end -}}
+{{- $type = lower $type -}}
+{{- $type = index (dict "warn" "warning" "caution" "danger" "error" "danger" "important" "info") $type | default $type -}}
+{{- if not (in (slice "note" "info" "tip" "success" "warning" "danger") $type) }}{{ $type = "note" }}{{ end -}}
+{{- $icon := .Get "icon" | default (index (dict
+      "note" "pencil" "info" "info" "tip" "lightbulb"
+      "success" "check-circle" "warning" "alert-triangle" "danger" "alert-octagon") $type) -}}
+{{- $title := index (dict
+      "note" (i18n "callout_note") "info" (i18n "callout_info") "tip" (i18n "callout_tip")
+      "success" (i18n "callout_success") "warning" (i18n "callout_warning") "danger" (i18n "callout_danger")) $type -}}
+{{- /* isset needs a map, so only consult named params (positional .Params is a slice). */ -}}
+{{- if .IsNamedParams }}{{ if isset .Params "title" }}{{ $title = .Get "title" }}{{ end }}{{ end -}}
+<div class="cs-callout cs-callout-{{ $type }}">
+  <span class="cs-callout-icon">{{ partial "icon.html" $icon }}</span>
+  <div class="cs-callout-body">
+    {{- with $title }}<p class="cs-callout-title">{{ $.Page.RenderString . }}</p>{{ end -}}
+    {{ .Page.RenderString (dict "display" "block") .InnerDeindent }}
+  </div>
+</div>

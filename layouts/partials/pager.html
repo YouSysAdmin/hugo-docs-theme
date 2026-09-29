@@ -1,0 +1,31 @@
+{{- /*
+  Prev/next pager over the current page's siblings, ordered by weight
+  (ascending) - i.e. the same order as the sidebar. Hugo's built-in
+  .PrevInSection/.NextInSection follow the default sort and are named opposite
+  to reading order, so we resolve neighbours explicitly to avoid the confusion.
+*/ -}}
+{{- $pages := .Parent.RegularPages.ByWeight -}}
+{{- $prev := false -}}
+{{- $next := false -}}
+{{- range $i, $p := $pages -}}
+  {{- if eq $p.RelPermalink $.RelPermalink -}}
+    {{- if gt $i 0 -}}{{- $prev = index $pages (sub $i 1) -}}{{- end -}}
+    {{- if lt (add $i 1) (len $pages) -}}{{- $next = index $pages (add $i 1) -}}{{- end -}}
+  {{- end -}}
+{{- end -}}
+{{ if or $prev $next }}
+  <nav class="cs-pager" aria-label="Page navigation">
+    {{ with $prev }}
+      <a class="cs-pager-link cs-pager-prev" href="{{ .RelPermalink }}">
+        <span class="cs-pager-d mono-dim">← {{ i18n "pager_prev" }}</span>
+        <span class="cs-pager-t">{{ .Title }}</span>
+      </a>
+    {{ else }}<span></span>{{ end }}
+    {{ with $next }}
+      <a class="cs-pager-link cs-pager-next" href="{{ .RelPermalink }}">
+        <span class="cs-pager-d mono-dim">{{ i18n "pager_next" }} →</span>
+        <span class="cs-pager-t">{{ .Title }}</span>
+      </a>
+    {{ else }}<span></span>{{ end }}
+  </nav>
+{{ end }}

@@ -1,0 +1,24 @@
+{{- /* On a translated (non-default-language) page, show a notice when the
+       primary-language original was modified more recently - i.e. this translation
+       may be stale - with a link to the original. "More recently" compares
+       .Lastmod (front-matter lastmod/date, or git commit date when enableGitInfo
+       is on). Renders nothing on primary-language pages or when up to date. */ -}}
+{{- $primary := index hugo.Sites 0 -}}
+{{- if ne site.Language.Lang $primary.Language.Lang -}}
+  {{- $orig := "" -}}
+  {{- range .AllTranslations -}}
+    {{- if eq .Language.Lang $primary.Language.Lang -}}{{- $orig = . -}}{{- end -}}
+  {{- end -}}
+  {{- with $orig -}}
+    {{- if .Lastmod.After $.Lastmod -}}
+      <div class="cs-callout cs-callout-warning cs-translation-notice">
+        <span class="cs-callout-icon">{{ partial "icon.html" "alert-triangle" }}</span>
+        <div class="cs-callout-body">
+          <p class="cs-callout-title">{{ i18n "translation_outdated_title" }}</p>
+          <p>{{ i18n "translation_outdated_body" }}
+            <a href="{{ .RelPermalink }}">{{ i18n "translation_view_primary" }} ({{ .Language.Label }}) →</a></p>
+        </div>
+      </div>
+    {{- end -}}
+  {{- end -}}
+{{- end -}}

@@ -1,0 +1,19 @@
+{{- /* Two home pages, one switch. By default the home page is the
+    documentation index - an ordinary page with the sidebar and the TOC,
+    rendered from content/_index.md. With params.landing it becomes the
+    hero, the feature cards and the section grid (partials/landing.html). */ -}}
+{{ define "main" }}
+  {{ if site.Params.landing }}
+    {{ partial "landing.html" . }}
+  {{ else }}
+  <article class="cs-article">
+    <header class="cs-article-head">
+      <h1>{{ .Title }}</h1>
+      {{ with .Description }}<p class="cs-lead">{{ . }}</p>{{ end }}
+    </header>
+    <div class="cs-prose">
+      {{ .Content }}
+    </div>
+  </article>
+  {{ end }}
+{{ end }}

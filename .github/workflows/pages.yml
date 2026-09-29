@@ -1,0 +1,47 @@
+# Builds exampleSite with this checkout as its theme and publishes it to
+# GitHub Pages - the demo site linked from theme.toml.
+name: Demo site
+
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # exampleSite finds the theme as ../.. by the checkout's name
+          path: hugo-docs-theme
+      - uses: peaceiris/actions-hugo@v3
+        with:
+          hugo-version: "0.167.0"
+      - id: pages
+        uses: actions/configure-pages@v5
+      - name: Build
+        working-directory: hugo-docs-theme/exampleSite
+        run: hugo --minify --baseURL "${{ steps.pages.outputs.base_url }}/"
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: hugo-docs-theme/exampleSite/public
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

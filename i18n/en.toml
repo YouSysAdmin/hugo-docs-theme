@@ -1,0 +1,113 @@
+# English UI strings for the theme. Keys are referenced via {{ i18n "key" }}.
+# Add a language by copying this file to i18n/<lang>.toml and translating the values.
+
+[nav_menu]
+other = "Menu"
+[nav_search]
+other = "Search"
+[nav_search_aria]
+other = "Search docs"
+[theme_toggle]
+other = "Toggle theme"
+[theme_switch]
+other = "Switch to light theme"
+[nav_menu_toggle]
+other = "Toggle navigation menu"
+[lang_switch]
+other = "Language"
+
+[search_placeholder]
+other = "Search the docs..."
+[search_input_aria]
+other = "Search the documentation"
+[search_dialog]
+other = "Search documentation"
+[search_close]
+other = "Close search"
+[search_results]
+other = "Search results"
+[search_no_results]
+other = "No matches."
+[search_hint_navigate]
+other = "navigate"
+[search_hint_open]
+other = "open"
+[search_hint_close]
+other = "close"
+
+[toc_title]
+other = "On this page"
+[toc_edit]
+other = "Edit this page"
+
+[pager_prev]
+other = "Previous"
+[pager_next]
+other = "Next"
+
+[list_section]
+other = "Section"
+
+[home_get_started]
+other = "Get started"
+[home_features_eyebrow]
+other = "Features"
+[home_features_title]
+other = "What is inside"
+[home_browse_eyebrow]
+other = "All sections"
+[home_browse_title]
+other = "Browse the manual"
+
+[footer_docs]
+other = "Docs"
+[footer_reference]
+other = "Reference"
+[footer_project]
+other = "Project"
+[footer_releases]
+other = "Releases"
+[footer_issues]
+other = "Issues"
+# .Hugo and .Theme are links the footer template builds. Keep both, in
+# whatever order the language needs.
+[footer_built_with]
+other = "built with {{ .Hugo }} and {{ .Theme }}"
+
+[single_updated]
+other = "updated"
+[single_min_read]
+other = "min read"
+
+[changelog]
+other = "Changelog"
+[changelog_new]
+other = "New"
+[changelog_empty]
+other = "No entries yet."
+[changelog_older]
+other = "Older"
+[changelog_newer]
+other = "Newer"
+
+[callout_note]
+other = "Note"
+[callout_info]
+other = "Info"
+[callout_tip]
+other = "Tip"
+[callout_success]
+other = "Success"
+[callout_warning]
+other = "Warning"
+[callout_danger]
+other = "Danger"
+
+[translation_missing]
+other = "Not translated"
+[translation_outdated_title]
+other = "This translation may be out of date"
+[translation_outdated_body]
+other = "The original was updated more recently."
+[translation_view_primary]
+other = "View the original"

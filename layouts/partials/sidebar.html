@@ -1,0 +1,69 @@
+{{- $current := . -}}
+{{- /* Build the sidebar from the PRIMARY language's structure (hugo.Sites is
+       ordered by language weight, so index 0 is the default language) and resolve
+       each entry to the current language - or fall back to the primary page with an
+       "EN"-style tag when it isn't translated yet. So every page is reachable in
+       every language. For the primary language itself nothing falls back. */ -}}
+{{- $primary := index hugo.Sites 0 -}}
+{{- $primaryLang := $primary.Language.Lang -}}
+{{- /* Collapsible sidebar sections. Site-wide defaults (params.sidebarCollapsible
+       / params.sidebarCollapsed), overridable per section in its _index.md front
+       matter (sidebar_collapsible / sidebar_collapsed). A section is only
+       collapsible if it actually has sub-pages, and the section holding the current
+       page is always expanded. */ -}}
+{{- $cfgCollapsible := true -}}
+{{- if isset site.Params "sidebarcollapsible" }}{{ $cfgCollapsible = site.Params.sidebarCollapsible }}{{ end -}}
+{{- $cfgCollapsed := false -}}
+{{- if isset site.Params "sidebarcollapsed" }}{{ $cfgCollapsed = site.Params.sidebarCollapsed }}{{ end -}}
+<aside class="cs-side" aria-label="Documentation">
+  <nav class="cs-side-inner">
+    {{ range (where $primary.Sections "Params.sidebar" "ne" false).ByWeight }}
+      {{- $psec := . -}}
+      {{- $r := partial "i18n-resolve.html" $psec -}}
+      {{- $sec := $r.page -}}
+      {{- /* resolve this section's collapse behavior */ -}}
+      {{- $hasChildren := gt (len $psec.Pages) 0 -}}
+      {{- $collapsible := $cfgCollapsible -}}
+      {{- if isset $psec.Params "sidebar_collapsible" }}{{ $collapsible = $psec.Params.sidebar_collapsible }}{{ end -}}
+      {{- $collapsible = and $collapsible $hasChildren -}}
+      {{- $startCollapsed := $cfgCollapsed -}}
+      {{- if isset $psec.Params "sidebar_collapsed" }}{{ $startCollapsed = $psec.Params.sidebar_collapsed }}{{ end -}}
+      {{- $inSection := hasPrefix $current.RelPermalink $sec.RelPermalink -}}
+      {{- $open := or $inSection (not $startCollapsed) -}}
+      {{- /* Whether the section's own _index.md shows as a sidebar entry. A
+             section WITH sub-pages usually has a landing/stub _index (its content
+             feeds the "Browse the manual" cards), so its link is hidden by
+             default, and a section WITHOUT sub-pages keeps it (the _index IS the
+             page). Flip the multi-page default with params.sidebarIndexLink, or
+             per section with `sidebar_index` in the _index.md front matter (wins). */ -}}
+      {{- $showIndex := not $hasChildren -}}
+      {{- if and $hasChildren (isset site.Params "sidebarindexlink") }}{{ $showIndex = site.Params.sidebarIndexLink }}{{ end -}}
+      {{- if isset $psec.Params "sidebar_index" }}{{ $showIndex = $psec.Params.sidebar_index }}{{ end -}}
+      {{- /* Skip a childless section reduced to a bare (unclickable) header. */ -}}
+      {{- if or $hasChildren $showIndex }}
+      {{ if $collapsible }}
+      <details class="cs-side-group cs-side-collapsible"{{ if $open }} open{{ end }}{{ if $inSection }} data-current{{ end }}>
+        <summary class="cs-side-h cs-side-summary{{ if and (not $showIndex) (eq $current.RelPermalink $sec.RelPermalink) }} cs-side-h-active{{ end }}">{{ with $sec.Params.icon }}{{ partial "icon.html" (dict "name" . "class" "cs-side-ico") }}{{ end }}<span class="cs-side-title">{{ $sec.Title }}</span>{{ partial "icon.html" (dict "name" "chevron-right" "class" "cs-side-chevron") }}</summary>
+      {{ else }}
+      <div class="cs-side-group">
+        <div class="cs-side-h{{ if and (not $showIndex) (eq $current.RelPermalink $sec.RelPermalink) }} cs-side-h-active{{ end }}">{{ with $sec.Params.icon }}{{ partial "icon.html" (dict "name" . "class" "cs-side-ico") }}{{ end }}{{ $sec.Title }}</div>
+      {{ end }}
+        <ul>
+          {{ if $showIndex }}
+          <li{{ if eq $current.RelPermalink $sec.RelPermalink }} class="cs-active"{{ end }}>
+            <a href="{{ $sec.RelPermalink }}">{{ $sec.Title }}{{ if $r.fallback }} {{ partial "fallback-tag.html" $primaryLang }}{{ end }}</a>
+          </li>
+          {{ end }}
+          {{ range $psec.Pages.ByWeight }}
+            {{- $rp := partial "i18n-resolve.html" . -}}
+            {{- $pg := $rp.page -}}
+            <li{{ if eq $current.RelPermalink $pg.RelPermalink }} class="cs-active"{{ end }}>
+              <a href="{{ $pg.RelPermalink }}">{{ $pg.Title }}{{ if $rp.fallback }} {{ partial "fallback-tag.html" $primaryLang }}{{ end }}</a>
+            </li>
+          {{ end }}
+        </ul>
+      {{ if $collapsible }}</details>{{ else }}</div>{{ end }}
+      {{- end }}
+    {{ end }}
+  </nav>
+</aside>

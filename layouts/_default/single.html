@@ -1,0 +1,19 @@
+{{ define "main" }}
+  <article class="cs-article">
+    <header class="cs-article-head">
+      {{ with .Parent }}
+        <div class="cs-eyebrow">{{ .Title }}</div>
+      {{ end }}
+      <h1>{{ .Title }}</h1>
+      {{ with .Description }}<p class="cs-lead">{{ . }}</p>{{ end }}
+      <div class="cs-article-meta mono-dim">
+        {{ with .Lastmod }}{{ i18n "single_updated" }} {{ .Format "2006-01-02" }} · {{ end }}{{ .ReadingTime }} {{ i18n "single_min_read" }}
+      </div>
+    </header>
+    {{ partial "translation-notice.html" . }}
+    <div class="cs-prose">
+      {{ .Content }}
+    </div>
+    {{ partial "pager.html" . }}
+  </article>
+{{ end }}

@@ -1,0 +1,13 @@
+name        = "Hugo Docs Theme"
+license     = "MIT"
+licenselink = "https://github.com/YouSysAdmin/hugo-docs-theme/blob/master/LICENSE"
+description = "A documentation theme. Dark first with a light mode, ink accent, an optional landing page and an OpenAPI reference layout."
+homepage    = "https://github.com/YouSysAdmin/hugo-docs-theme"
+demosite    = "https://yousysadmin.github.io/hugo-docs-theme/"
+tags        = ["docs", "documentation", "dark", "light", "search", "multilingual", "responsive", "minimal"]
+features    = ["sidebar", "toc", "toc rail", "search", "dark mode", "callouts", "multilingual", "landing page", "openapi reference", "changelog", "no external requests"]
+min_version = "0.158.0"
+
+[author]
+  name = "YouSysAdmin"
+  homepage = "https://github.com/YouSysAdmin"

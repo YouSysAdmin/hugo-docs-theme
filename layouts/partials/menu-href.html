@@ -1,0 +1,26 @@
+{{- /* Where a menu entry points, and whether it leaves the site. An internal
+       URL resolves to the current language's page, or to the first
+       language's when it is not translated - the same fallback the sidebar
+       makes. `external` in the entry's params overrides the guess. */ -}}
+{{- $external := or (hasPrefix .URL "http://") (hasPrefix .URL "https://") -}}
+{{- if isset .Params "external" }}{{ $external = .Params.external }}{{ end -}}
+{{- $href := .URL -}}
+{{- if not $external -}}
+  {{- /* A url from the site config arrives already carrying the baseURL
+         path, so it is stripped before resolving. */ -}}
+  {{- $base := "" | relURL -}}
+  {{- $rel := .URL -}}
+  {{- if and (ne $base "/") (hasPrefix $rel $base) }}{{ $rel = printf "/%s" (strings.TrimPrefix $base $rel) }}{{ end -}}
+  {{- $href = strings.TrimPrefix "/" $rel | relLangURL -}}
+  {{- with .Page -}}
+    {{- $href = .RelPermalink -}}
+  {{- else -}}
+    {{- $path := strings.TrimSuffix "/" $rel | default "/" -}}
+    {{- with site.GetPage $path -}}
+      {{- $href = .RelPermalink -}}
+    {{- else -}}
+      {{- with (index hugo.Sites 0).GetPage $path }}{{ $href = .RelPermalink }}{{ end -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- return (dict "href" $href "external" $external) -}}

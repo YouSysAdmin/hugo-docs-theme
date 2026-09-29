@@ -1,0 +1,110 @@
+# Ukrainian UI strings for the theme.
+
+[nav_menu]
+other = "Меню"
+[nav_search]
+other = "Пошук"
+[nav_search_aria]
+other = "Пошук у документації"
+[theme_toggle]
+other = "Перемкнути тему"
+[theme_switch]
+other = "Перемкнути на світлу тему"
+[nav_menu_toggle]
+other = "Перемкнути меню навігації"
+[lang_switch]
+other = "Мова"
+
+[search_placeholder]
+other = "Пошук у документації..."
+[search_input_aria]
+other = "Пошук у документації"
+[search_dialog]
+other = "Пошук у документації"
+[search_close]
+other = "Закрити пошук"
+[search_results]
+other = "Результати пошуку"
+[search_no_results]
+other = "Нічого не знайдено."
+[search_hint_navigate]
+other = "навігація"
+[search_hint_open]
+other = "відкрити"
+[search_hint_close]
+other = "закрити"
+
+[toc_title]
+other = "На цій сторінці"
+[toc_edit]
+other = "Редагувати сторінку"
+
+[pager_prev]
+other = "Назад"
+[pager_next]
+other = "Далі"
+
+[list_section]
+other = "Розділ"
+
+[home_get_started]
+other = "Почати"
+[home_features_eyebrow]
+other = "Можливості"
+[home_features_title]
+other = "Що всередині"
+[home_browse_eyebrow]
+other = "Усі розділи"
+[home_browse_title]
+other = "Переглянути документацію"
+
+[footer_docs]
+other = "Документація"
+[footer_reference]
+other = "Довідник"
+[footer_project]
+other = "Проєкт"
+[footer_releases]
+other = "Релізи"
+[footer_issues]
+other = "Issues"
+[footer_built_with]
+other = "зроблено на {{ .Hugo }} з {{ .Theme }}"
+
+[single_updated]
+other = "оновлено"
+[single_min_read]
+other = "хв читання"
+
+[changelog]
+other = "Журнал змін"
+[changelog_new]
+other = "Нове"
+[changelog_empty]
+other = "Записів ще немає."
+[changelog_older]
+other = "Старіші"
+[changelog_newer]
+other = "Новіші"
+
+[callout_note]
+other = "Нотатка"
+[callout_info]
+other = "Інформація"
+[callout_tip]
+other = "Порада"
+[callout_success]
+other = "Успіх"
+[callout_warning]
+other = "Попередження"
+[callout_danger]
+other = "Небезпека"
+
+[translation_missing]
+other = "Не перекладено"
+[translation_outdated_title]
+other = "Цей переклад може бути застарілим"
+[translation_outdated_body]
+other = "Оригінал оновлювали пізніше."
+[translation_view_primary]
+other = "Переглянути оригінал"

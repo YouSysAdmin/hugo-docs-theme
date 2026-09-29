@@ -1,0 +1,57 @@
+{{- $sections := (where site.Sections "Params.sidebar" "ne" false).ByWeight -}}
+<section class="cs-hero cs-home-hero">
+  <div class="cs-hero-inner">
+    <div>
+      {{ with site.Params.tagline }}<h1 class="cs-display">{{ . }}</h1>{{ end }}
+      <h1 class="cs-display-sub">{{ site.Params.tagline_sub | default site.Title }}</h1>
+      <p class="cs-lead">{{ site.Params.lead | default site.Params.description }}</p>
+      <div class="cs-hero-ctas">
+        {{ if or site.Params.get_started_url $sections }}
+        <a class="cs-btn cs-btn-primary cs-btn-lg" href="{{ with site.Params.get_started_url }}{{ . | relLangURL }}{{ else }}{{ (index $sections 0).RelPermalink }}{{ end }}">{{ i18n "home_get_started" }} →</a>
+        {{ end }}
+        {{ with site.Params.cta_url }}
+        <a class="cs-btn cs-btn-ghost cs-btn-lg" href="{{ . }}" target="_blank" rel="noopener">{{ site.Params.cta_label | default "GitHub" }} ↗</a>
+        {{ end }}
+      </div>
+      {{ with site.Params.trust_badges }}
+      <div class="cs-hero-trust">
+        {{ range . }}<span>{{ . }}</span>{{ end }}
+      </div>
+      {{ end }}
+    </div>
+    {{ partial "hero-media.html" . }}
+  </div>
+</section>
+
+{{ with site.Params.features }}
+<section class="cs-section-tight">
+  <div class="cs-section-inner">
+    <div class="cs-eyebrow">{{ i18n "home_features_eyebrow" }}</div>
+    <h2 class="cs-h2">{{ site.Params.features_title | default (i18n "home_features_title") }}</h2>
+    <div class="cs-list-grid">
+      {{ range . }}
+      <div class="cs-list-card cs-feature-card">
+        <div class="cs-list-card-h">{{ .title }}</div>
+        {{ with .description }}<div class="cs-list-card-d">{{ . }}</div>{{ end }}
+      </div>
+      {{ end }}
+    </div>
+  </div>
+</section>
+{{ end }}
+
+<section class="cs-section-tight">
+  <div class="cs-section-inner">
+    <div class="cs-eyebrow">{{ i18n "home_browse_eyebrow" }}</div>
+    <h2 class="cs-h2">{{ i18n "home_browse_title" }}</h2>
+    <div class="cs-list-grid">
+      {{ range $sections }}
+      <a class="cs-list-card" href="{{ .RelPermalink }}">
+        <div class="cs-list-card-h">{{ .Title }}</div>
+        {{ with .Description }}<div class="cs-list-card-d">{{ . }}</div>{{ end }}
+        <div class="cs-list-card-arrow mono">→</div>
+      </a>
+      {{ end }}
+    </div>
+  </div>
+</section>

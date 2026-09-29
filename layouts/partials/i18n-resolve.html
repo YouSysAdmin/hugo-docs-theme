@@ -1,0 +1,18 @@
+{{- /* Resolve a primary-language page to the current language. Given a page (in the
+       primary/default language), returns a dict:
+         page     - the current-language translation if it exists, else the input
+                    page itself (a fallback to the primary language)
+         fallback - true when no current-language translation exists
+       Used so navigation can list the full set of pages in every language, linking
+       untranslated ones to the primary-language version. */ -}}
+{{- $cur := site.Language.Lang -}}
+{{- $page := . -}}
+{{- $resolved := $page -}}
+{{- $fallback := true -}}
+{{- range $page.AllTranslations -}}
+  {{- if eq .Language.Lang $cur -}}
+    {{- $resolved = . -}}
+    {{- $fallback = false -}}
+  {{- end -}}
+{{- end -}}
+{{- return (dict "page" $resolved "fallback" $fallback) -}}

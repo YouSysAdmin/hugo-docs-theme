@@ -1,0 +1,64 @@
+{{ define "main" }}
+  <article class="cs-article">
+    <header class="cs-article-head">
+      <div class="cs-eyebrow">
+        {{ with .CurrentSection }}<a href="{{ .RelPermalink }}">← {{ .Title }}</a>{{ else }}{{ i18n "changelog" }}{{ end }}
+      </div>
+      <h1>{{ .Title }}</h1>
+      {{ with .Description }}<p class="cs-lead">{{ . }}</p>{{ end }}
+      <div class="cs-article-meta cs-changelog-single-meta mono-dim">
+        <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "January 2, 2006" }}</time>
+        {{ with .Params.authors }}
+          <span class="cs-authors">
+            {{ range . }}
+              {{ if reflect.IsMap . }}
+                <a class="cs-author"{{ with .link }} href="{{ . }}" target="_blank" rel="noopener"{{ end }}{{ with .name }} title="{{ . }}"{{ end }}>
+                  {{ with .image }}<img src="{{ . }}" alt="" loading="lazy" />{{ end }}
+                  <span>{{ .name }}</span>
+                </a>
+              {{ else }}
+                <span class="cs-author">{{ . }}</span>
+              {{ end }}
+            {{ end }}
+          </span>
+        {{ end }}
+      </div>
+      {{ with .GetTerms "tags" }}
+        <div class="cs-changelog-tags">
+          {{ range . }}<a class="cs-tag" href="{{ .RelPermalink }}">#{{ .LinkTitle }}</a>{{ end }}
+        </div>
+      {{ end }}
+    </header>
+
+    <div class="cs-prose">
+      {{ .Content }}
+    </div>
+
+    {{- /* Prev/next within the changelog, ordered by date (oldest to newest). */ -}}
+    {{- $pages := .CurrentSection.RegularPagesRecursive.ByDate -}}
+    {{- $older := false -}}
+    {{- $newer := false -}}
+    {{- range $i, $p := $pages -}}
+      {{- if eq $p.RelPermalink $.RelPermalink -}}
+        {{- if gt $i 0 -}}{{- $older = index $pages (sub $i 1) -}}{{- end -}}
+        {{- if lt (add $i 1) (len $pages) -}}{{- $newer = index $pages (add $i 1) -}}{{- end -}}
+      {{- end -}}
+    {{- end -}}
+    {{ if or $older $newer }}
+      <nav class="cs-pager" aria-label="Changelog navigation">
+        {{ with $older }}
+          <a class="cs-pager-link cs-pager-prev" href="{{ .RelPermalink }}">
+            <span class="cs-pager-d mono-dim">← {{ i18n "changelog_older" }}</span>
+            <span class="cs-pager-t">{{ .Title }}</span>
+          </a>
+        {{ else }}<span></span>{{ end }}
+        {{ with $newer }}
+          <a class="cs-pager-link cs-pager-next" href="{{ .RelPermalink }}">
+            <span class="cs-pager-d mono-dim">{{ i18n "changelog_newer" }} →</span>
+            <span class="cs-pager-t">{{ .Title }}</span>
+          </a>
+        {{ else }}<span></span>{{ end }}
+      </nav>
+    {{ end }}
+  </article>
+{{ end }}

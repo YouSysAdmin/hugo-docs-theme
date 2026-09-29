@@ -1,0 +1,41 @@
+{{ define "main" }}
+  <article class="cs-article">
+    <header class="cs-article-head">
+      <div class="cs-eyebrow">{{ i18n "changelog" }}</div>
+      <h1>{{ .Title }}</h1>
+      {{ with .Description }}<p class="cs-lead">{{ . }}</p>{{ end }}
+    </header>
+
+    {{ with .Content }}<div class="cs-prose">{{ . }}</div>{{ end }}
+
+    {{ $entries := .RegularPagesRecursive }}
+    {{ if $entries }}
+      <div class="cs-changelog">
+        {{ range $entries.GroupByDate "January 2006" }}
+          <section class="cs-changelog-group">
+            <h2 class="cs-changelog-month">{{ .Key }}</h2>
+            {{ range .Pages }}
+              <article class="cs-changelog-entry">
+                <time class="cs-changelog-date mono-dim" datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 02" }}</time>
+                <div class="cs-changelog-body">
+                  <h3 class="cs-changelog-h">
+                    <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+                    {{ if .Date.After (now.AddDate 0 0 -30) }}<span class="cs-badge cs-badge-new">{{ i18n "changelog_new" }}</span>{{ end }}
+                  </h3>
+                  {{ with .Description }}<p class="cs-changelog-d">{{ . }}</p>{{ end }}
+                  {{ with .GetTerms "tags" }}
+                    <div class="cs-changelog-tags">
+                      {{ range . }}<a class="cs-tag" href="{{ .RelPermalink }}">#{{ .LinkTitle }}</a>{{ end }}
+                    </div>
+                  {{ end }}
+                </div>
+              </article>
+            {{ end }}
+          </section>
+        {{ end }}
+      </div>
+    {{ else }}
+      <p class="cs-changelog-empty mono-dim">{{ i18n "changelog_empty" }}</p>
+    {{ end }}
+  </article>
+{{ end }}

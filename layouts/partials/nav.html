@@ -1,0 +1,84 @@
+{{- $current := . -}}
+<nav class="cs-nav">
+  <div class="cs-nav-inner">
+    {{- /* The home page of THIS language. `"/" | relLangURL` answers "/" - the
+           empty path short-circuits, so it drops the baseURL subpath - which
+           sends the brand link off the site whenever the site is not at the
+           root of its host. */ -}}
+    <a href="{{ site.Home.RelPermalink }}" class="cs-brand" aria-label="{{ site.Params.brand | default site.Title }}">
+      <img src="{{ site.Params.logo | default "assets/logo/logo.svg" | relURL }}" alt=""/>
+      <span>{{ site.Params.brand | default site.Title }}</span>
+    </a>
+    <div class="cs-nav-links">
+      {{ range site.Menus.main }}
+        {{- $m := partial "menu-href.html" . -}}
+        {{- $external := $m.external -}}
+        <a href="{{ $m.href }}"{{ if $external }} target="_blank" rel="noopener"{{ end }}>{{ with .Params.icon }}{{ partial "icon.html" (dict "name" . "class" "cs-nav-ico") }}{{ end }}{{ .Name }}{{ if $external }} <span class="cs-ext">↗</span>{{ end }}</a>
+      {{ end }}
+    </div>
+    <div class="cs-nav-cta">
+      {{ with site.Params.cta_url }}
+        <a class="cs-btn cs-btn-ghost cs-btn-sm" href="{{ . }}" target="_blank" rel="noopener">
+          {{ with site.Params.cta_icon }}{{ partial "icon.html" (dict "name" . "class" "cs-btn-ico") }}{{ end }}{{ site.Params.cta_label | default "Get started" }}
+        </a>
+      {{ end }}
+    </div>
+    <button type="button" class="cs-search-trigger" data-search-open aria-label="{{ i18n "nav_search_aria" }}" title="{{ i18n "nav_search" }}">
+      {{ partial "icon.html" (dict "name" "search" "class" "cs-search-trigger-ico") }}
+      <span class="cs-search-trigger-label">{{ i18n "nav_search" }}</span>
+      <kbd class="cs-search-kbd"></kbd>
+    </button>
+    {{ partial "lang-switcher.html" . }}
+    <button type="button" class="cs-theme-toggle" aria-label="{{ i18n "theme_switch" }}" aria-pressed="false" title="{{ i18n "theme_toggle" }}">
+      {{ partial "icon.html" (dict "name" "sun" "class" "cs-theme-ico cs-theme-moon") }}
+      {{ partial "icon.html" (dict "name" "moon" "class" "cs-theme-ico cs-theme-sun") }}
+    </button>
+    <button type="button" class="cs-burger" aria-label="{{ i18n "nav_menu_toggle" }}" aria-controls="cs-mobile-menu" aria-expanded="false">
+      <span class="cs-burger-bars" aria-hidden="true"><span></span><span></span><span></span></span>
+    </button>
+  </div>
+</nav>
+
+{{- /* Mobile navigation drawer: the top-nav links and (off the home page) the
+       doc-section navigation are hidden on small screens, so surface both here.
+       Lives outside <nav> because the nav's backdrop-filter would otherwise
+       become the containing block for this fixed overlay. */ -}}
+<div class="cs-mobile-menu" id="cs-mobile-menu">
+  <div class="cs-mobile-menu-inner">
+    <div class="cs-mobile-sec">
+      <div class="cs-mobile-h">{{ i18n "nav_menu" }}</div>
+      {{ range site.Menus.main }}
+        {{- $m := partial "menu-href.html" . -}}
+        {{- $external := $m.external -}}
+        <a href="{{ $m.href }}"{{ if $external }} target="_blank" rel="noopener"{{ end }}>{{ with .Params.icon }}{{ partial "icon.html" (dict "name" . "class" "cs-nav-ico") }}{{ end }}{{ .Name }}{{ if $external }} <span class="cs-ext">↗</span>{{ end }}</a>
+      {{ end }}
+    </div>
+    {{ if not $current.IsHome }}
+      {{- /* Same primary-driven fallback as the desktop sidebar. */ -}}
+      {{- $primary := index hugo.Sites 0 -}}
+      {{- $primaryLang := $primary.Language.Lang -}}
+      {{ range (where $primary.Sections "Params.sidebar" "ne" false).ByWeight }}
+        {{- $psec := . -}}
+        {{- $r := partial "i18n-resolve.html" $psec -}}
+        {{- $sec := $r.page -}}
+        <div class="cs-mobile-sec">
+          <div class="cs-mobile-h">{{ with $sec.Params.icon }}{{ partial "icon.html" (dict "name" . "class" "cs-side-ico") }}{{ end }}{{ $sec.Title }}</div>
+          <a href="{{ $sec.RelPermalink }}"{{ if eq $current.RelPermalink $sec.RelPermalink }} class="cs-active"{{ end }}>{{ $sec.Title }}{{ if $r.fallback }} {{ partial "fallback-tag.html" $primaryLang }}{{ end }}</a>
+          {{ range $psec.Pages.ByWeight }}
+            {{- $rp := partial "i18n-resolve.html" . -}}
+            {{- $pg := $rp.page -}}
+            <a href="{{ $pg.RelPermalink }}"{{ if eq $current.RelPermalink $pg.RelPermalink }} class="cs-active"{{ end }}>{{ $pg.Title }}{{ if $rp.fallback }} {{ partial "fallback-tag.html" $primaryLang }}{{ end }}</a>
+          {{ end }}
+        </div>
+      {{ end }}
+    {{ end }}
+    {{ with site.Params.cta_url }}
+      <a class="cs-btn cs-btn-ghost cs-mobile-cta" href="{{ . }}" target="_blank" rel="noopener">
+        {{ with site.Params.cta_icon }}{{ partial "icon.html" (dict "name" . "class" "cs-btn-ico") }}{{ end }}{{ site.Params.cta_label | default "Get started" }} <span class="cs-ext">↗</span>
+      </a>
+    {{ end }}
+  </div>
+</div>
+
+{{- /* The nav drawer + theme toggle behavior lives in assets/js/theme.js, bundled
+       and deferred in head.html. */ -}}
