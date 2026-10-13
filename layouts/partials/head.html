@@ -58,7 +58,9 @@
        dark/light toggle, TOC scrollspy) concatenated into one deferred,
        fingerprinted bundle (same Pipes pattern as the CSS above). The no-flash
        theme resolver above stays inline and blocking, everything else defers. */ -}}
-{{ $fuse     := resources.Get "js/vendor/fuse.min.js" }}
+{{- /* lib, never vendor: a Go module zip drops every vendor directory,
+       so a Hugo module import of the theme would lose these files. */ -}}
+{{ $fuse     := resources.Get "js/lib/fuse.min.js" }}
 {{ $searchjs := resources.Get "js/search.js" }}
 {{ $themejs  := resources.Get "js/theme.js" }}
 {{ $refjs    := resources.Get "js/reference.js" }}

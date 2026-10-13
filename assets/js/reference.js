@@ -1,5 +1,5 @@
 // API reference: mount Scalar on the reference pages and keep its theme in
-// step with the site's. The vendored standalone bundle (assets/vendor/scalar)
+// step with the site's. The vendored standalone bundle (assets/lib/scalar)
 // defines window.Scalar. Both scripts are deferred, and deferred scripts run
 // in DOCUMENT order - this bundle sits in <head>, Scalar's in the article -
 // so mounting waits for DOMContentLoaded, by which point every deferred

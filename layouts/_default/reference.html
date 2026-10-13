@@ -7,7 +7,7 @@
     openapi: openapi.json     # a page resource, a path under static/, or a URL
     ---
 
-  Scalar is vendored (assets/vendor/scalar) and published only when a page
+  Scalar is vendored (assets/lib/scalar) and published only when a page
   with this layout exists.
   It is mounted by assets/js/reference.js, so there is no inline script.
 
@@ -42,7 +42,7 @@
         {{- end -}}
       {{- end }}
       <div id="openapi-reference" class="cs-reference" data-url="{{ $src }}"></div>
-      <script defer src="{{ (resources.Get "vendor/scalar/standalone.js").RelPermalink }}"></script>
+      <script defer src="{{ (resources.Get "lib/scalar/standalone.js").RelPermalink }}"></script>
     {{- else -}}
       {{- warnf "layout reference: %s has no `openapi` front matter" $.File.Path -}}
     {{- end }}

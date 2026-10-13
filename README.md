@@ -169,6 +169,6 @@ licenses:
 | `static/fonts/inter-tight-*.woff2` | SIL OFL 1.1, `static/fonts/OFL-InterTight.txt` |
 | `static/fonts/space-mono-*.woff2` | SIL OFL 1.1, `static/fonts/OFL-SpaceMono.txt` |
 | `static/fonts/jetbrains-mono-*.woff2` | SIL OFL 1.1, `static/fonts/OFL-JetBrainsMono.txt` |
-| `assets/js/vendor/fuse.min.js` | Apache 2.0, header in the file |
-| `assets/vendor/scalar/standalone.js` | MIT, `assets/vendor/scalar/LICENSE` |
+| `assets/js/lib/fuse.min.js` | Apache 2.0, header in the file |
+| `assets/lib/scalar/standalone.js` | MIT, `assets/lib/scalar/LICENSE` |
 | `assets/icons/*.svg` | MIT, from [Feather](https://feathericons.com) |
